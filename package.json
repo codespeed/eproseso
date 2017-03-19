@@ -1,21 +1,33 @@
 
 {
   "name": "eproseso",
-  "version": "0.2.5",
+  "version": "0.0.1",
   "description": "Eproseso - PhilHealth Online Registration",
-  "engines": {
-    "node": "0.10.0"
+    "engine": {
+    "node": "*",
+    "npm": "*"
   },
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js"
-  },
-  "dependencies": {
-    "express": "4.14.1"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/codespeed/eproseso"
+    "url": "http://github.com/codespeed/philhealth.git"
   },
-  "license": "MIT"
+  "dependencies": {
+    "express": "*",
+    "mongojs":"*",
+    "bodyparser":"*",
+    "urlencode":"*",
+    "mongoose":"*",
+    "request":"*",
+    "requestify":"*",
+    "http":"*",
+    "fs":"*",
+    "requestify":"*"
+  },
+  "author": "Christian Mark Maghanoy <maghanoycm@gmail.com>",
+  "license": "CC-BY-1.0",
+  "homepage": "http://github.com/codespeed/philhealth"
 }
