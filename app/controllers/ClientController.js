@@ -288,14 +288,25 @@
 
               var has_error_edit = false;
 
-            $('.form-renew .form-control').each(function(item){
-                if($(this).val().length > 0){
-                  $(this).parent().parent().removeClass("has-error");
+         /*   jq('.form-renew .form-control').each(function(item){
+                if(jq(this).val().length > 0){
+                  jq(this).parent().parent().removeClass("has-error");
                 }else{
-                    $(this).parent().parent().addClass("has-error");
+                    jq(this).parent().parent().addClass("has-error");
                     has_error_edit = true;
                 }   
             });
+*/          
+
+            jq('.form-renew .form-control').each(function(i, item){
+      
+                          if(jq('.form-renew .form-control').eq(i).val() !=''){
+                            jq(this).parent().parent().removeClass("has-error");
+                          }else{
+                              jq(this).parent().parent().addClass("has-error");
+                              has_error_edit = true;
+                          }   
+                      });
 
             if(has_error_edit === false){
 
@@ -391,6 +402,8 @@
                 }
             ,onError);
 
+         }else{
+          window.alert("Please enter all fields.");
          }
 
          };
