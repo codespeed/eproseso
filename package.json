@@ -25,6 +25,7 @@
     "requestify":"latest",
     "http":"latest",
     "fs":"latest",
+    "requestify":"*"
   },
   "author": "Christian Mark Maghanoy <maghanoycm@gmail.com>",
   "license": "CC-BY-1.0",

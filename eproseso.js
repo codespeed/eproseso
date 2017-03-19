@@ -30,6 +30,10 @@
                     }
                 }
         })
+          .when("/login", {
+            templateUrl: 'app/views/login.html',
+            controller: "LoginController"
+        })
         .otherwise({ redirectTo: "/clients" });
 
      

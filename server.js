@@ -3,8 +3,8 @@
 var express = require('express');
 var app = express();
 var mongojs = require('mongojs');
-var db = mongojs('project-db', ['applications','healthcards']);
-//var db= mongojs('mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso', ['applications','healthcards']);
+/*var db = mongojs('project-db', ['applications','healthcards']);*/
+var db= mongojs('mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso', ['applications','healthcards']);
 var bodyParser = require('body-parser');
 var urlencode = require('urlencode');
 var mongoose = require('mongoose');
