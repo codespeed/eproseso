@@ -1,0 +1,123 @@
+<div>
+	{{error}}
+</div>
+<input type="text" ng-model="pid" value="{{pid}}">
+
+<h1>
+	Person Addresses
+</h1>
+
+<table class="table table-striped table-bordered">
+	<thead>
+		<!--<tr>
+			<td><input type="text" id="txtInputName" placeHolder="Enter Name" ng-model="person.name"></td>
+			<td><input type="email" id="txtInputEmail" placeHolder="Enter Email" ng-model="person.email"></td>
+			<td><input type="phone" id="txtInputPhone" placeHolder="Enter Name" ng-model="person.number"></td>
+			<td><button id="btnAdd" class="btn btn-info btn-sm" data-ng-click="addPerson(person);">Add</input></td>
+			<td><button id="btnEdit" class="btn btn-info btn-sm" data-ng-click="updatePerson(person);">Update</input></td>
+		</tr>-->
+		<tr class='danger'>
+			<td>Street</td>
+			<td>City</td>
+			<td>State</td>
+			<td>Zip</td>
+			<td>Edit</td>
+			<td>Delete</td>
+		</tr>
+	
+	</thead>
+	<tbody>
+		<tr ng-repeat="address in addresses" class='info'>
+			<td>{{address.street}}</td>
+			<td>{{address.city}}</td>
+			<td>{{address.state}}</td>
+			<td>{{address.zip}}</td>
+			<td><button ng-click="searchAddressById(address._id);" data-toggle="modal" data-target="#addressEditModal" class="btn btn-info btn-sm">Edit Person Address</button></td>
+			<td><button ng-click="deleteAddress(address._id);" class="btn btn-info btn-sm">Delete</button></td>
+		</tr>
+		<tr>
+		<!-- ng-click="searchAddressById();" -->
+			<td colspan='7'><button type="button"  class="btn btn-info btn-lg" data-toggle="modal" data-target="#addressAddModal">Add Person Address</button></td>
+		</tr>	
+	</tbody>
+</table>
+
+<!-- Add person address Modal -->
+<div id="addressAddModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Person Address</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+ 
+		  <div class="form-group">
+		    <label for="txtStreet">Street</label>
+		    <input type="text" class="form-control" ng-model='address.street' id="txtStreet" placeholder="Enter Street">
+		  </div>
+		  <div class="form-group">
+		    <label for="txtCity">City</label>
+		    <input type="text" class="form-control" id="txtCity" ng-model='address.city' placeholder="Enter City">
+		  </div>
+		  <div class="form-group">
+		    <label for="txtState">State</label>
+		    <input type="phone" class="form-control" id="txtState" ng-model='address.state' placeholder="Enter State">
+		  </div>
+		  <div class="form-group">
+		    <label for="txtZip">Zip</label>
+		    <input type="number" class="form-control" id="txtZip" ng-model='address.zip' placeholder="Enter Zip">
+		  </div>
+		  <button type="submit" class="btn btn-default" data-ng-click="addAddress(address);"  data-dismiss="modal">Submit</button>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+	</div>
+</div>
+<!--End add person modal-->
+
+
+<!-- Edit person address Modal -->
+<div id="addressEditModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Person Address</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+		  <div class="form-group">
+		    <label for="txtStreet">Street</label>
+		    <input type="text" class="form-control" ng-model='add.street' id="txtStreet" placeholder="Update Street">
+		  </div>
+		  <div class="form-group">
+		    <label for="txtCity">City</label>
+		    <input type="text" class="form-control" id="txtCity" ng-model='add.city' placeholder="Update City">
+		  </div>
+		  <div class="form-group">
+		    <label for="txtState">State</label>
+		    <input type="phone" class="form-control" id="txtState" ng-model='add.state' placeholder="Update State">
+		  </div>
+		  <div class="form-group">
+		    <label for="txtZip">Zip</label>
+		    <input type="number" class="form-control" id="txtZip" ng-model='add.zip' placeholder="Update Zip">
+		  </div>
+		  <button type="submit" class="btn btn-default" data-ng-click="updateAddress(add);"  data-dismiss="modal">Submit</button>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+	</div>
+</div>
+<!--End edit person address modal-->

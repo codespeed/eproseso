@@ -1,0 +1,106 @@
+<div>
+	{{error}}
+</div>
+	
+<h1>
+	Person Details
+</h1>
+<table class="table table-striped table-bordered">
+	<thead>
+		<!--<tr>
+			<td><input type="text" id="txtInputName" placeHolder="Enter Name" ng-model="person.name"></td>
+			<td><input type="email" id="txtInputEmail" placeHolder="Enter Email" ng-model="person.email"></td>
+			<td><input type="phone" id="txtInputPhone" placeHolder="Enter Name" ng-model="person.number"></td>
+			<td><button id="btnAdd" class="btn btn-info btn-sm" data-ng-click="addPerson(person);">Add</input></td>
+			<td><button id="btnEdit" class="btn btn-info btn-sm" data-ng-click="updatePerson(person);">Update</input></td>
+		</tr>-->
+		<tr class='danger'>
+			<td>Name</td>
+			<td>Email</td>
+			<td>Number</td>
+			<td>Edit</td>
+			<td>Delete</td>
+		</tr>
+	
+	</thead>
+	<tbody>
+		<tr ng-repeat="person in persons" class='info'>
+			<td><a ng-href="#/person/{{person.id}}">{{person.name}}</a></td>
+			<td>{{person.email}}</td>
+			<td>{{person.number}}</td>
+			<td><button ng-click="searchPerson(person._id);" data-toggle="modal" data-target="#personEditModal" class="btn btn-info btn-sm">Edit</button></td>
+			<td><button ng-click="deletePerson(person._id);" class="btn btn-info btn-sm">Delete</button></td>
+		</tr>
+		<tr>
+			<td colspan='5'><button type="button"  ng-click="searchPerson(123456789012);"class="btn btn-info btn-lg" data-toggle="modal" data-target="#personAddModal">Add Person</button></td>
+		</tr>	
+	</tbody>
+</table>
+<!-- Add person Modal -->
+<div id="personAddModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add Person</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+		  <div class="form-group">
+		    <label for="txtName">Name</label>
+		    <input type="name" class="form-control" ng-model='person_add.name' id="txtName" placeholder="Enter Name">
+		  </div>
+		  <div class="form-group">
+		    <label for="txtEmail">Email</label>
+		    <input type="email" class="form-control" id="txtEmail" ng-model='person_add.email' placeholder="Enter Email">
+		  </div>
+		  <div class="form-group">
+		    <label for="txtPhone">Phone</label>
+		    <input type="phone" class="form-control" id="txtPhone" ng-model='person_add.number' placeholder="Enter Phone">
+		  </div>
+		  <button type="submit" class="btn btn-default" data-ng-click="addPerson(person_add);"  data-dismiss="modal">Submit</button>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+	</div>
+</div>
+<!--End add person modal-->
+
+<!--Edit person modal-->
+<div id="personEditModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Edit Person</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+		  <div class="form-group">
+		    <label for="txtName">Name</label>
+		    <input type="name" class="form-control" id="txtName" ng-model='person.name' placeholder="Update Name">
+		  </div>
+		  <div class="form-group">
+		    <label for="txtEmail">Email</label>
+		    <input type="email" class="form-control" id="txtEmail" ng-model='person.email' placeholder="Update Email">
+		  </div>
+		  <div class="form-group">
+		    <label for="txtPhone">Phone</label>
+		    <input type="phone" class="form-control" id="txtPhone" ng-model='person.number' placeholder="Update Phone">
+		  </div>
+		  <button type="submit" class="btn btn-default"  data-ng-click="updatePerson(person);" data-dismiss="modal">Submit</button>
+		</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+</div>
+</div>
+<!--End edit person modal-->

@@ -1,0 +1,351 @@
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1 class="header-name">
+            Edit Client
+            <!-- <small>advanced tables</small> -->
+            <input type="hidden" id="action" value="category-add">
+          </h1>
+          <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> Home</li>
+            <li>Clients</li>
+            <li class="active">Add</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+    
+          <div class="row">
+            <div class="col-xs-8">
+            <div class="msg-alert">
+           
+              </div>
+
+          
+                    <form data-action="add" class="form-horizontal" id="save-form" onsubmit="return false;"  enctype="multipart/form-data" method="post" >
+         
+              
+              <div class="box box-success">
+
+             <div class="box-header with-border">
+                  <h3 class="box-title">Client Details</h3>
+                </div>
+                
+           
+                  <div class="box-body">
+                     <div class="col-xs-10 client-edit">
+                     
+
+               
+
+                   <div class="form-group">
+                      <label  class="col-sm-3 control-label">Lastname <span class="text-red">*</span></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control" ng-model="client.lastname" id="lastname" name="lastname">
+                      </div>
+                    </div>
+
+           
+                       <div class="form-group">
+                      <label  class="col-sm-3 control-label">Firstname <span class="text-red">*</span></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control" ng-model="client.firstname" id="firstname" name="firstname">
+                      </div>
+                    </div>
+
+
+                         <div class="form-group">
+                      <label  class="col-sm-3 control-label">Middlename <span class="text-red">*</span></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control" ng-model="healthcard.hc_middlename" id="middlename" name="middlename">
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                    <label  class="col-sm-3 control-label">Gender <span class="text-red">*</span></label>
+                    <div class="col-sm-7">
+                    <div class="radio">
+                      <label>
+                        <input  type="radio" name="gender" ng-model="client.gender" value="male" checked>
+                        Male
+                      </label>
+                    </div>
+                    <div class="radio">
+                      <label>
+                        <input type="radio" name="gender" ng-model="client.gender" value="female">
+                        Female
+                      </label>
+                  </div>
+                  </div>
+                  </div>
+
+
+                  <div class="form-group">
+                  <label  class="col-sm-3 control-label">Birth of Date <span class="text-red">*</span></label>
+                  <div class="col-sm-7">
+                <div class="input-group date">
+                  <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                  </div>
+                  <input type="text" id="birthofdate" ng-model="client.birthday" class="form-control input-date" data-inputmask="'alias': 'mm/dd/yyyy'" data-mask="">
+                </div>
+                </div>
+              </div>
+
+
+          
+              <div class="form-group">
+                      <label  class="col-sm-3 control-label">Age <span class="text-red">*</span></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control" ng-model="healthcard.hc_age" id="age" name="age">
+                      </div>
+                    </div>
+
+                  
+
+                     <div class="form-group">
+                      <label  class="col-sm-3 control-label">Civil Status <span class="text-red">*</span></label>
+                      <div class="col-sm-7">
+                       <select class="form-control" ng-model="client.status" id="civilstatus" name="civilstatus">
+                          <option value="Single" selected>Single</option>
+                          <option value="Married">Married</option>
+                          <option value="Widowed">Widowed</option>
+                          <option value="Separated">Separated</option>
+                          <option value="Divorced">Divorced</option>
+                       </select>
+                      </div>
+                    </div>
+
+                       
+
+                           <div class="form-group">
+                      <label  class="col-sm-3 control-label">Nationality <span class="text-red">*</span></label>
+                      <div class="col-sm-7">
+                        <input type="text" class="form-control" ng-model="client.nationality" id="nationality" name="office_location">
+                      </div>
+                    </div>
+
+
+                <div class="form-group">
+                    <label  class="col-sm-3 control-label">Residence <span class="text-red">*</span></label>
+                    <div class="col-sm-7">
+                      <textarea class="form-control" id="residence" ng-model="client.address" rows="3"></textarea>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label  class="col-sm-3 control-label">Contact No <span class="text-red">*</span></label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" ng-model="client.contact" id="contactno" name="contactnumber">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label  class="col-sm-3 control-label">Email <span class="text-red">*</span></label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" ng-model="client.email" id="email" name="email">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label  class="col-sm-3 control-label">Nickname <span class="text-red">*</span></label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" ng-model="client.nickname" id="nickname" name="nickname">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label  class="col-sm-3 control-label">Establishment <span class="text-red">*</span></label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" ng-model="client.ioe_establishment" id="establishment" name="establishment">
+                  </div>
+                </div>
+
+<!-- 
+                <h5>In case of emergency</h5>
+        -->
+
+  <!--                <h5>Account Login</h5> -->
+
+
+             
+
+
+
+
+                       
+                  
+
+                    </div>
+
+              
+
+
+
+
+      
+
+
+
+                    
+                  </div><!-- /.box-body -->
+
+              
+
+          
+
+              
+              </div>
+
+                <div class="box box-success">
+
+             <div class="box-header with-border">
+                  <h3 class="box-title">In Case Of Emergency</h3>
+                </div>
+               
+                  <div class="box-body client-edit">
+                             <div class="form-group">
+                  <label  class="col-sm-3 control-label">Name <span class="text-red">*</span></label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" ng-model="client.ioe_name" id="icoe_name" name="icoe_name">
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label  class="col-sm-3 control-label">Relation <span class="text-red">*</span></label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" ng-model="client.ioe_relation" id="icoe_relation" name="icoe_relation">
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label  class="col-sm-3 control-label">Address <span class="text-red">*</span></label>
+                    <div class="col-sm-7">
+                      <textarea class="form-control" id="icoe_address" ng-model="client.ioe_address" rows="3"></textarea>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label  class="col-sm-3 control-label">Contact No <span class="text-red">*</span></label>
+                  <div class="col-sm-7">
+                    <input type="text" class="form-control" ng-model="client.ioe_contact" id="icoe_contactno" name="icoe_contactno">
+                  </div>
+                </div>
+
+                  </div>
+
+                 
+            </div>
+
+
+
+                <div class="box box-success">
+
+             <div class="box-header with-border">
+                  <h3 class="box-title">Health Certificate Application Information</h3>
+                </div>
+               
+                  <div class="box-body client-edit">
+
+                  <div class="form-group">
+                    <label  class="col-sm-3 control-label">Cedula <span class="text-red">*</span></label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="healthcard.hc_cedula" id="cedula" name="cedula">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label  class="col-sm-3 control-label">Cedula Date Issued <span class="text-red">*</span></label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="healthcard.hc_cedula_date_issued" id="cedula_date_issued" name="cedula_date_issued">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label  class="col-sm-3 control-label">Official Reciept No. <span class="text-red">*</span></label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="healthcard.hc_OR_fee_number" id="or_fee_no" name="or_fee_no">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label  class="col-sm-3 control-label">OR No. Date Issued <span class="text-red">*</span></label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="healthcard.hc_OR_fee_number_date_issued" id="or_fee_no_date_issued" name="or_fee_no_date_issued">
+                    </div>
+                  </div>
+
+               
+
+                   <div class="form-group">
+                    <label  class="col-sm-3 control-label">Business Employment <span class="text-red">*</span></label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="healthcard.hc_business_employment" id="business_employment" name="business_employment">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label  class="col-sm-3 control-label">Job Category <span class="text-red">*</span></label>
+                    <div class="col-sm-7">
+
+                        <select class="form-control" ng-model="healthcard.hc_job_category" id="job_category" name="job_category">
+                          <option value="Non-Food" selected>Non-Food</option>
+                          <option value="Food">Food</option>
+                          <option value="Pink">Pink</option>
+                       </select>
+
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label  class="col-sm-3 control-label">Job Position <span class="text-red">*</span></label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="healthcard.hc_position" id="job_position" name="job_position">
+                    </div>
+                  </div>
+                   <div class="form-group">
+                    <label  class="col-sm-3 control-label">Ethnic Group <span class="text-red">*</span></label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="healthcard.hc_ethnic_group" id="ethnic_group" name="ethnic_group">
+                    </div>
+                  </div>
+
+
+<div class="form-group" style="display:none;">
+                    <label  class="col-sm-3 control-label">Application ID</label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="healthcard.application_id" id="application_id" name="application_id">
+
+                    </div>
+                  </div>
+
+                  <div class="form-group" style="display:none;">
+                    <label  class="col-sm-3 control-label">Client ID</label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="client._id" id="cid" name="cid">
+                    </div>
+                  </div>
+
+
+                  </div>
+
+                  <div class="box-footer">
+                    <div class="col-xs-10">
+                     <div class="form-group">
+                     <label  class="col-sm-2 control-label"></label>
+                   <button class="btn btn-md btn-success btn-flat btn-save" ng-click="updateClient(client,healthcard)">Save</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#/clients"  class="btn btn-md btn-default btn-flat">Cancel</a>
+                    </div>
+                    </div>
+                  </div>
+
+                  </div>
+
+            </form>
+
+            </div>
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->

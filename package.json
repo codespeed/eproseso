@@ -1,0 +1,21 @@
+
+{
+  "name": "eproseso",
+  "version": "0.2.5",
+  "description": "Eproseso - PhilHealth Online Registration",
+  "engines": {
+    "node": "0.10.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "4.14.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/codespeed/eproseso"
+  },
+  "license": "MIT"
+}

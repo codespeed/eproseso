@@ -1,0 +1,28 @@
+var mongoose = require('mongoose');
+
+module.exports = mongoose.model('Application', {
+	username : String(),
+	password : String(),
+	password_confirm : String(),
+	firstname : String(),
+	lastname : String(),
+	email : String(),
+	nickname : String(),
+	gender : String(),
+	birthday : String(),
+	status : String(),
+	nationality : String(),
+	contact : String(),
+	address : String(),
+	note : String(),
+	ioe_name : String(),
+	ioe_relation : String(),
+	ioe_address : String(),
+	ioe_contact : String(),
+	ioe_establishment : String(),
+	profile_picture : String(),
+	account_status : String(),
+	type:String(),
+	date_expired_text: String(),
+    date_expired_number:String(),
+});
