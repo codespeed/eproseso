@@ -1,0 +1,21 @@
+{
+  "name": "eproseso",
+  "description": "Eproseso - PhilHealth Online Registration",
+  "main": "server.js",
+  "authors": [
+    "Christian Mark Maghanoy <maghanoycm@gmail.com>"
+  ],
+  "license": "CC-BY-1.0",
+  "homepage": "https://github.com/codespeed/eproseso",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-ui-tinymce": "^0.0.18"
+  }
+}

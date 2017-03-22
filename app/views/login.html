@@ -1,35 +1,105 @@
-<div class="container-fluid-full">
-    <div class="row-fluid">
-          
-      <div class="row-fluid">
-        <div class="login-box">
-          
-          <h2>Login to your account</h2>
-          <form class="form-horizontal" id="form-login" method="post">
-            <fieldset>
-            <div id="msg"></div>
-              <div class="input-prepend" title="Username">
-                <span class="add-on"><i class="halflings-icon user"></i></span>
-                <input class="input-large span10"  name="username" id="username" type="text" placeholder="type username"/>
-              </div>
-              <div class="clearfix"></div>
 
-              <div class="input-prepend" title="Password">
-                <span class="add-on"><i class="halflings-icon lock"></i></span>
-                <input class="input-large span10" name="password" id="password" type="password" placeholder="type password"/>
-              </div>
-              <div class="clearfix"></div>
-            
-              <div class="button-login">  
-                <button type="submit" class="btn btn-primary login">Login</button>
-              </div>
-              <div class="clearfix"></div>
-          </form>
-        
-        </div><!--/span-->
-      </div><!--/row-->
+ <header class="main-header"  ng-hide="isHide">
+        <!-- Logo -->
+        <a href="javascript:void(0);" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini">
+            EP  
+ 
+          </span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg">EProseso</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <!-- Control Sidebar Toggle Button -->
+              <li class=" user user-menu">
+            <a href="javascript:void(0);">Welcome,&nbsp; Admin</a>
+             
+
+              </li>
+
+              <li>
+                <a ng-href="#logout" id="logout" ng-click="logout()" data-toggle="control-sidebar"><i class="fa fa-power-off"></i></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar"  >
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- /.search form -->
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu" ng-hide="isHide">
+            <li class="header">MENU</li>
+         
+         
+            <li><a href="#/clients"><i class="fa fa-users"></i> <span>Clients</span></a></li>
+            <!-- <li><a href="#/events"><i class="fa fa-child"></i> <span>Events</span></a></li> -->
+          <!--   <li><a href="#/pages"><i class="fa fa-cubes"></i> <span>Pages</span></a></li>
+            <li><a href="#/menus"><i class="fa fa-cubes"></i> <span>Menus</span></a></li>
+             -->
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+
+
+<div class="login-box" style="height: 480px;">
+      <div class="login-logo">
+      <a><b>Eproseso</b></a>
+      </div><!-- /.login-logo -->
+      <div class="login-box-body">
+
+      <p class="login-box-msg">Sign in to start your session</p>
+
+        <div class="alert-message"></div>
+
+
+
+        <form action="" method="post" onsubmit="return false;">
+          <div class="form-group has-feedback">
+            <input type="text" class="form-control" placeholder="Username" id="username" ng-model="username">
+            <span class="form-control-feedback"><i class="fa fa-fw fa-user"></i></span>
+          </div>
+          <div class="form-group has-feedback">
+            <input type="password" class="form-control" placeholder="Password" id="password"  ng-model="password">
+            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+          </div>
+          <div class="row">
+            <div class="col-xs-8">
+            </div><!-- /.col -->
+            <div class="col-xs-4">
+              <button id="login" class="btn btn-primary btn-block btn-flat" ng-click="loginSubmit()">Login </button>
+            </div><!-- /.col -->
+          </div>
+        </form>
+
       
+       
+      </div><!-- /.login-box-body -->
+    </div><!-- /.login-box -->
 
-  </div><!--/.fluid-container-->
-  
-    </div><!--/fluid-row-->
+
+    <footer class="main-footer" ng-hide="isHide"> 
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0
+        </div>
+        <strong>Copyright &copy; 2017 <a href="/#/dashboard" class="text-green">Eproseso</a>.</strong> All rights reserved.
+      </footer>
+
+    
+      <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>

@@ -25,6 +25,9 @@
     <!-- AdminLTE Skins. Choose a skin from the css/skins
          folder instead of downloading all of them to reduce the load. -->
     <link rel="stylesheet" href="/assets/dist/css/skins/_all-skins.min.css">
+
+      <!-- bootstrap wysihtml5 - text editor -->
+  <link rel="stylesheet" href="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
     <!-- Orgchart -->
     <link rel="stylesheet" href="/assets/plugins/orgchart/jquery.orgchart.css">
 
@@ -58,96 +61,47 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.4/angular-route.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.6/angular-filter.js"></script>
+      <script src="/node_modules/angular-local-storage/src/angular-local-storage.js"></script>
 
     <script type="text/javascript" src="/node_modules/angular-loading-bar/build/loading-bar.min.js"></script>
  
     <link rel="stylesheet" href="/node_modules/angular-loading-bar/build/loading-bar.min.css">
 
-      
+    <script type="text/javascript" src="/node_modules/angular-slugify/angular-slugify.js"></script>
     <script src="/lib/dirPagination.js"></script>
+
+   <script type="text/javascript" src="/bower_components/tinymce/tinymce.js"></script>
+    <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+  <script type="text/javascript" src="/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
+
+
     <script type="text/javascript" src="eproseso.js"></script>
 
-    <script src="/assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>   
-
+    <script src="/assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <script type="text/javascript" src="app/controllers/ClientController.js"></script>
-  
+    <script type="text/javascript" src="app/controllers/LoginController.js"></script>
+    <script type="text/javascript" src="app/controllers/LogoutController.js"></script>
+    <script type="text/javascript" src="app/controllers/EventController.js"></script>
+
+    
+
 
   </head>
   <body class="layout-boxed hold-transition skin-blue sidebar-mini skin-green-light">
   
     <div class="wrapper">
 
-      <header class="main-header">
-        <!-- Logo -->
-        <a href="javascript:void(0);" class="logo">
-          <!-- mini logo for sidebar mini 50x50 pixels -->
-          <span class="logo-mini">
-            EP
-          </span>
-          <!-- logo for regular state and mobile devices -->
-          <span class="logo-lg">EProseso</span>
-        </a>
-        <!-- Header Navbar: style can be found in header.less -->
-        <nav class="navbar navbar-static-top" role="navigation">
-          <!-- Sidebar toggle button-->
-          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <div class="navbar-custom-menu">
-            <ul class="nav navbar-nav">
-              <!-- Control Sidebar Toggle Button -->
-              <li class=" user user-menu">
-            <a href="javascript:void(0);">Welcome,&nbsp; Admin</a>
-             
 
-              </li>
-
-              <li>
-                <a href="#/logout" id="logout" data-toggle="control-sidebar"><i class="fa fa-power-off"></i></a>
-              </li>
-            </ul>
-          </div>
-        </nav>
-      </header>
-      <!-- Left side column. contains the logo and sidebar -->
-      <aside class="main-sidebar">
-        <!-- sidebar: style can be found in sidebar.less -->
-        <section class="sidebar">
-          <!-- /.search form -->
-          <!-- sidebar menu: : style can be found in sidebar.less -->
-          <ul class="sidebar-menu">
-            <li class="header">MENU</li>
-         
-         
-            <li><a href="#/clients"><i class="fa fa-users"></i> <span>Clients</span></a></li>
-            <!-- <li><a href="#/events"><i class="fa fa-child"></i> <span>Events</span></a></li> -->
-          <!--   <li><a href="#/pages"><i class="fa fa-cubes"></i> <span>Pages</span></a></li>
-            <li><a href="#/menus"><i class="fa fa-cubes"></i> <span>Menus</span></a></li>
-             -->
-          </ul>
-        </section>
-        <!-- /.sidebar -->
-      </aside>
+     
 
 <!-- ANGULAR VIEW -->
-	<div data-ng-view></div>
 
-
-      <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-          <b>Version</b> 1.0
-        </div>
-        <strong>Copyright &copy; 2017 <a href="/#/dashboard" class="text-green">Eproseso</a>.</strong> All rights reserved.
-      </footer>
-
+	<div data-ng-view>
     
-      <!-- Add the sidebar's background. This div must be placed
-           immediately after the control sidebar -->
-      <div class="control-sidebar-bg"></div>
+  </div>
+
     </div><!-- ./wrapper -->
+     
 
   <!-- jQuery 2.1.4 -->
     <script src="/assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>   
@@ -200,6 +154,8 @@
     <script src="/assets/plugins/bootbox/bootbox.min.js"></script>
     <script src="/assets/plugins/ajaxform/ajax-form.js"></script>
 
+    <script src="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+
      <script src="/assets/plugins/tinymce/js/tinymce/tinymce.min.js"></script>
   <script>tinymce.init({ selector:'textarea' });</script>
 
@@ -210,77 +166,14 @@
     <script>
       $(function () {
 
-        $('#logout').on('click',function(e){
+        $(document).on('click','#logout',function(e){
           e.preventDefault();
-          window.location.href= $(this).attr('href');
-
+         // window.location.href= $(this).attr('href');
+          $('.main-header .sidebar-menu .main-footer').css("display","none");
         });
-        //Database Tables
-        $("#tbl-pending, #tbl-approved, #tbl-renewal").DataTable({"ordering": false});
-
-
-
-        $('#date-added').datepicker();
-        $("#date-added").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});  
-
-
-        
-        
-   
-          $('.input-date').datepicker('option', 'onSelect', function() {/* do stuff */ });
-          $(".input-date").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"}); 
-
-      /*    $(".input-date").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"}); 
-           //Date picker
-      $('#datepicker').datepicker({
-        autoclose: true
-      });    */  
-
-
-         $(".view-month").datepicker( {
-          format: "MM-yyyy",
-          viewMode: "months", 
-          minViewMode: "months"
-      });
-
-         $(".view-year").datepicker( {
-          format: "yyyy",
-          viewMode: "years", 
-          minViewMode: "years"
-      });
-         //$(".view-month").inputmask("MM-yyyy", {"placeholder": "MM-yyyy"});
-
-      
-
-       $(".select2").select2({placeholder: "- Please Select Item -"});
-/*
-            $(".input-tag").tagsinput();*/
-
-            $('.input-tag').tagsInput();
-
-              //iCheck for checkbox and radio inputs
-        $('input[type="checkbox"].minimal, input[type="radio"].minimal').iCheck({
-          checkboxClass: 'icheckbox_minimal-blue',
-          radioClass: 'iradio_minimal-blue'
-        });
-
-
-    $("#example1").DataTable();
-
-
-    $(document).on("change",".requirements").change(function(){
-      /*  if ($('.abc:checked').length == $('.abc').length) {
-           //do something
-        }*/
-        /*if($('.requirements').not(':checked').length > 0){
-          alert('k');
-        }else{
-          alert("n");
-        }*/
-        alert('k');
-    });
 
       }); //end jquery
+
 
 
       $(document).on("click", ".tab-item", function() {
@@ -300,17 +193,23 @@
         var id = $(this).data("id"),
             cid = $(this).data("cid");
         $("#selected_renew_name").text($(this).data("lastname") + ", " + $(this).data("firstname"));
-        /*$('#r_lastname').val($(this).data("lastname"));
-        $('#r_firstname').val($(this).data("firstname"));
-        console.log($(this).data("lastname"));*/
       });
 
       $(document).on("keypress",".form-control",function(){
          if($(this).val().length > 0){
           $(this).parent().parent().removeClass("has-error");
           $(this).next(".vc-help").css("display","none");
+          $(this).next(".txt-email").css("display","none");
          }
       });
+      $(document).on("keypress",".letter-only", function(event){
+          var inputValue = event.charCode;
+        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)){
+            event.preventDefault();
+        }
+
+      });
+
 
       $(document).on("keydown",".number-only",function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
@@ -328,20 +227,6 @@
         }
     });
 
-
-
-      //$('.input-date').datepicker('option', 'onSelect', function() {/* do stuff */ });
-      //$(".input-date").inputmask("mm/dd/yyyy", {"placeholder": "mm/dd/yyyy"});
-
-     /* $(document).on("click", ".btn-member-add", function() {
-        var href =  $(this).attr("href");
-        alert(href);
-        
-      });
-*/
-    
-
-     
 
 
 $(document).ajaxStart(function() { Pace.restart(); }); 

@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/codespeed/philhealth.git"
+    "url": "http://github.com/codespeed/eproseso.git"
   },
   "dependencies": {
     "express": "latest",
@@ -25,9 +25,11 @@
     "requestify":"latest",
     "http":"latest",
     "fs":"latest",
-    "requestify":"*"
+    "angular-local-storage":"0.5.2",
+    "angular-slugify": "1.0.1"
   },
   "author": "Christian Mark Maghanoy <maghanoycm@gmail.com>",
   "license": "CC-BY-1.0",
-  "homepage": "http://github.com/codespeed/philhealth"
+  "homepage": "http://github.com/codespeed/eproseso"
 }
+

@@ -1,9 +1,35 @@
 'use strict';
 
 (function () {
-    var app = angular.module("eprosesoApp", ['ngRoute', 'angular-loading-bar','angularUtils.directives.dirPagination','angular.filter']);
+    var app = angular.module("eprosesoApp", ['ngRoute', 'angular-loading-bar','angularUtils.directives.dirPagination','angular.filter', 'ui.tinymce', 'slugifier']);
     app.config(function ($routeProvider) {
         $routeProvider
+         .when("/events", {
+            templateUrl: 'app/views/events/list.html',
+            controller: "EventController"
+        })
+          .when("/events/edit/:id", {
+            templateUrl: 'app/views/events/edit.html',
+            controller: "EventController",
+            resolve: {
+                    validation: function ($q, $route) {
+                        var deferred = $q.defer(),
+                            id = parseInt($route.current.params.id, 10);
+
+                        if (!isNaN(id)) {
+                            deferred.resolve();
+                        } else {
+                            deferred.reject('VALIDATION FAILED');
+                        }
+
+                        return deferred.promise;
+                    }
+                }
+        })
+         .when("/events/add", {
+            templateUrl: 'app/views/events/add.html',
+            controller: "EventController"
+        })
         .when("/clients", {
             templateUrl: 'app/views/clients/list.html',
             controller: "ClientController"
@@ -34,9 +60,13 @@
             templateUrl: 'app/views/login.html',
             controller: "LoginController"
         })
-        .otherwise({ redirectTo: "/clients" });
-
-     
-
+           .when("/logout", {
+            templateUrl: 'app/views/login.html',
+            controller: "LogoutController"
+        })
+        .otherwise({ redirectTo: "/login" });
     });
+
 }());
+
+

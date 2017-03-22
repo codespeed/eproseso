@@ -1,0 +1,173 @@
+
+ <header class="main-header"  ng-hide="isHide">
+        <!-- Logo -->
+        <a href="javascript:void(0);" class="logo">
+          <!-- mini logo for sidebar mini 50x50 pixels -->
+          <span class="logo-mini">
+            EP  
+ 
+          </span>
+          <!-- logo for regular state and mobile devices -->
+          <span class="logo-lg">EProseso</span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <nav class="navbar navbar-static-top" role="navigation">
+          <!-- Sidebar toggle button-->
+          <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <!-- Control Sidebar Toggle Button -->
+              <li class=" user user-menu">
+            <a href="javascript:void(0);">Welcome,&nbsp; Admin</a>
+             
+
+              </li>
+
+              <li>
+                <a ng-href="#logout" id="logout" ng-click="logout()" data-toggle="control-sidebar"><i class="fa fa-power-off"></i></a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+      <!-- Left side column. contains the logo and sidebar -->
+      <aside class="main-sidebar"  >
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+          <!-- /.search form -->
+          <!-- sidebar menu: : style can be found in sidebar.less -->
+          <ul class="sidebar-menu" ng-hide="isHide">
+            <li class="header">MENU</li>
+         
+         
+            <li><a href="#/clients"><i class="fa fa-users"></i> <span>Clients</span></a></li>
+          <li><a href="#/events"><i class="fa fa-cubes"></i> <span>Events</span></a></li>
+          <!--   <li><a href="#/pages"><i class="fa fa-cubes"></i> <span>Pages</span></a></li>
+            <li><a href="#/menus"><i class="fa fa-cubes"></i> <span>Menus</span></a></li>
+             -->
+          </ul>
+        </section>
+        <!-- /.sidebar -->
+      </aside>
+
+
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Edit Event
+            <!-- <small>advanced tables</small> -->
+            <input type="hidden" id="action" value="category-add">
+          </h1>
+          <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> Home</li>
+            <li>Events</li>
+            <li class="active">Edit</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+        <section class="content client-add">
+
+    
+          <div class="row">
+            <div class="col-xs-12">
+
+          
+                    <form data-action="add" class="form-horizontal" id="save-form" onsubmit="return false;"  enctype="multipart/form-data" method="post" >
+         
+        
+                <div class="box box-success">
+
+             <div class="box-header with-border">
+                  <h3 class="box-title">Event Details</h3>
+                </div>
+               
+                  <div class="box-body">
+
+                  <div class="form-group">
+                    <label  class="col-sm-3 control-label">Title <span class="text-red">*</span>:</label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="event.title" id="title" name="title">
+                    </div>
+                  </div>
+
+                   <div class="form-group">
+                    <label  class="col-sm-3 control-label">Date <span class="text-red">*</span>:</label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="event.date" id="date" name="date">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label  class="col-sm-3 control-label">Location <span class="text-red">*</span>:</label>
+                    <div class="col-sm-7">
+                      <input type="text" class="form-control" ng-model="event.location" id="location" name="location">
+                    </div>
+                  </div>
+
+
+
+                   <div class="form-group" style="display: none;">
+                    <label  class="col-sm-3 control-label">Slug:</label>
+                    <div class="col-sm-7">
+                      <span style="position: relative;top:4px;">{{event.title | slugify}}</span>
+                    </div>
+                  </div>
+
+
+                          <div class="form-group">
+                    <label  class="col-sm-3 control-label">Description:</label>
+                    <div class="col-sm-7">
+                      
+                      <!-- <textarea class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea> -->
+
+                      <textarea ui-tinymce="tinymceOptions" ng-model="tinymceModel"  style="width: 100%; height: 300px;""></textarea>
+                    </div>
+                  </div>
+
+                 
+         
+
+                  </div>
+
+                  <div class="box-footer">
+                    <div class="col-xs-12">
+                     <div class="form-group">
+                     <label  class="col-sm-2 control-label"></label>
+                   <button class="btn btn-md btn-success btn-flat btn-save" ng-click="editEvent(event)">Save</button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <a href="#/events"  class="btn btn-md btn-default btn-flat">Cancel</a>
+                    </div>
+                    </div>
+                  </div>
+
+                  </div>
+
+            </form>
+
+
+            </div>
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->
+
+       <footer class="main-footer"  ng-hide="isHide"> 
+        <div class="pull-right hidden-xs">
+          <b>Version</b> 1.0
+        </div>
+        <strong>Copyright &copy; 2017 <a href="/#/dashboard" class="text-green">Eproseso</a>.</strong> All rights reserved.
+      </footer>
+
+    
+      <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+      <div class="control-sidebar-bg"></div>
+
+
+

@@ -4,16 +4,23 @@
     var eprosesoApp = angular.module("eprosesoApp");
     var jq = $.noConflict();
 
+
+
     // eprosesoApp.value('clientId', { value: 'gg'} );
 
-        eprosesoApp.factory('ClientService', function() {
+
+         eprosesoApp.factory('ClientService', function() {
         return {
             pending : '',
             renewal : '',
             application_id:'',
-            cid:''
+            cid:'',
+            logout:''
         };
     });
+
+  
+
 
     var ClientController = function ($scope,ClientService, $http, $routeParams,$location,$timeout)
     {
@@ -24,10 +31,47 @@
         };
         //end error function
 
+        ClientService.logout = false;
+
+        $http.post("/is_login/").then(
+                function(response){
+
+                  if(response.data !== null && response.data.is_login =="no"){
+                      $location.path('/login');
+                      ClientService.logout = true;
+                      $scope.isHide = ClientService.logout;
+                  }
+                 
+                } 
+            ,onError);
+
+        $scope.isHide = ClientService.logout;
+       
+
+        
+      /*    if(localStorageService.isSupported) {
+           console.log("supported");
+          }
+
+         if(typeof localStorageService.get("login") === 'undefined'){
+            $location.path('/login');
+          }
+
+
+          function clearAll() {
+         return localStorageService.clearAll();
+        }
+          $scope.logout=  function(){
+             clearAll();
+             console.log(":clear");
+             $location.path('/login');
+          };*/
         
          $scope.$on('$routeChangeError', function (ev, current, previous, rejection) {
             if (rejection === 'VALIDATION FAILED') {
-                $location.path('/clients');
+              $location.path('/clients');
+            
+                
             }
         });
 
@@ -35,10 +79,10 @@
           $scope.clients_expired_list = []; //declare an empty array
          $http.get("/clients/expired").success(function(response){ 
                 $scope.clients_expired_list =  response;
-                console.log(response);
+                //console.log(response);
 
                  angular.forEach($scope.clients_expired_list, function(value, key){
-                    console.log(value._id);
+                    //console.log(value._id);
                       $http.put("/clients/expired/update",{"application_id":value._id}).then(
                         function(response){ 
                         //renewal list
@@ -73,6 +117,9 @@
 
          $scope.getClientID = function(id){
            ClientService.application_id = id;
+           jq('#verify-client').modal({
+                show: 'false'
+            }); 
          };
 
         
@@ -137,7 +184,7 @@
             }
 
         };
-            load_clients();
+           
 
 
          $scope.verifySubmit= function(){
@@ -249,6 +296,11 @@
          };
 
         
+
+        var isValidEmailAddress = function (emailAddress) {
+              var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+              return pattern.test(emailAddress);
+          };
 
          $scope.getClientRenew = function(id){
             jq('.message-alert-renew').empty();
@@ -441,6 +493,9 @@
                         $scope.client = null;
                     }else{
                         $scope.client = response.data;
+                        $scope.lastname2 = response.data.lastname;
+                        $scope.firstname2 = response.data.firstname;
+
                         $http.get('/healthcard/'+id)
                                 .then(function(res){
                                    $scope.healthcard = res.data;
@@ -458,7 +513,8 @@
 
      
         if($location.url()=="/clients"){
-             refresh();
+             //refresh();
+              load_clients();
         }else if($location.url()=="/clients/add"){
             $scope.client = null;
 
@@ -556,6 +612,14 @@
         jq(".txt-gender").removeClass("has-error");
      }
 
+      if(isValidEmailAddress(jq("#email").val())){
+        jq('#email').parent().parent().removeClass("has-error");
+        jq('.txt-email').css("display","none");
+      }else{
+        jq('#email').parent().parent().addClass("has-error");
+        jq('.txt-email').css("display","block");
+        has_error = true;
+      }
     /* window.alert(isEmail(jq("#email").val()));
      if(!isEmail(jq("#email").val()) && jq("#email").val().length > 0){
         jq('#email').parent().parent().addClass("has-error");
@@ -571,7 +635,8 @@
 
            
             if(has_error === false){
-                  var client_data = {
+
+                var client_data = {
                 "id":$scope.next_id,
                 "username" : "",
                 "password" : "",
@@ -632,7 +697,20 @@
                
             };
 
-                 $http.post('/client/add', client_data).then(
+
+            if (window.confirm("Are you sure you want to add?")) { 
+ 
+               
+
+            $http.post("/clients/check",{lastname:client.lastname, firstname:client.firstname}).then(
+                function(response){
+            
+                  if(response.data !== null){
+                    $('#lastname,#firstname').parent().parent().addClass("has-error");
+                     window.alert("Name already exists, Please enter a new name.");
+
+                  }else{
+                      $http.post('/client/add', client_data).then(
                 function(response){
                     $scope.client = response.data;
                     next_id();
@@ -646,9 +724,20 @@
                          $location.path('/clients');
                     }
                 , onError);
+
+                  }
+                 
+                } 
+            ,onError);
+
+             }
+
+
             }else{
                 window.alert("Please enter all fields.");
             }
+                
+
            
             
         };
@@ -681,18 +770,21 @@
                 }   
             });
 
+             if(isValidEmailAddress(jq("#email").val())){
+                jq('#email').parent().parent().removeClass("has-error");
+                jq('.txt-email').css("display","none");
+              }else{
+                jq('#email').parent().parent().addClass("has-error");
+                jq('.txt-email').css("display","block");
+               has_error_edit = true;
+              }
+
+
            // window.alert(has_error_edit);
            
             if(has_error_edit === false){
-                
 
-                $http.put("/client/update/", client).then(
-                function(response){
-                  
-                }
-            ,onError);
-
-                healthcard.lastname = client.lastname;
+               healthcard.lastname = client.lastname;
                 healthcard.firstname = client.firstname;
                 healthcard.gender  = client.gender;
                 healthcard.civilstatus = client.status;
@@ -702,6 +794,17 @@
                 healthcard.ioe_address = client.ioe_address;
                 healthcard.ioe_contact = client.ioe_contact;
                 //window.alert(client.lastname);
+
+
+
+            if(jq('#lastname2').val() == jq('#lastname').val() && jq('#firstname2').val() == jq('#firstname').val()){
+                
+                  if (window.confirm("Are you sure you want to update?")) { 
+                $http.put("/client/update/", client).then(
+                function(response){
+                  
+                }
+            ,onError);
 
                 $http.put("/healthcard/update/", healthcard).then(
                 function(response){
@@ -714,6 +817,60 @@
 
                 }
             ,onError);
+
+              }
+
+            }else if((jq('#lastname2').val() == jq('#lastname').val() && jq('#firstname2').val() != jq('#firstname').val()) || (jq('#firstname2').val() == jq('#firstname').val() && jq('#lastname2').val() != jq('#lastname').val())){
+              
+
+               $http.post("/clients/check",{lastname:client.lastname, firstname:client.firstname}).then(
+                function(response){
+            
+                  if(response.data !== null){
+                    $('#lastname,#firstname').parent().parent().addClass("has-error");
+                     window.alert("Name already exists, Please enter a new name.");
+
+                  }else{
+
+                     if (window.confirm("Are you sure you want to update?")) { 
+                     
+
+                      $http.put("/client/update/", client).then(
+                function(response){
+                  
+                }
+            ,onError);
+
+                $http.put("/healthcard/update/", healthcard).then(
+                function(response){
+                     
+                    jq('.msg-alert').append('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> <h4><i class="icon fa fa-check"></i> Successfully updated.</h4> </div> ');
+
+                   jq('html, body').animate({
+                        scrollTop: jq(".header-name").offset().top
+                    }, 1000);
+
+                }
+            ,onError);
+
+              }
+                    
+
+
+                  }
+                 
+                } 
+            ,onError);
+
+            }
+
+
+
+              
+
+                
+
+               
 
 
             }else{

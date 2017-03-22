@@ -3,8 +3,8 @@
 var express = require('express');
 var app = express();
 var mongojs = require('mongojs');
-/*var db = mongojs('project-db', ['applications','healthcards']);*/
-var db= mongojs('mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso', ['applications','healthcards']);
+var db = mongojs('project-db', ['applications','healthcards', 'accounts', 'events']);
+//var db= mongojs('mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso', ['applications','healthcards']);
 var bodyParser = require('body-parser');
 var urlencode = require('urlencode');
 var mongoose = require('mongoose');
@@ -12,6 +12,8 @@ var request = require('request');
 var http = require('http');
 var fs = require('fs');
 var requestify = require('requestify'); 
+var jwt = require('jwt-simple');
+var moment = require('moment');
 
 var auth = require('./controllers/auth');
 var message = require('./controllers/message');
@@ -63,8 +65,8 @@ app.post('/auth/registration-confirmation', auth.register_confirmation);
 app.post('/auth/login', auth.login);
 
 //Connection
-//mongoose.connect("mongodb://localhost:27017/project-db", function (err, db) {
-mongoose.connect("mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso", function (err, db) {
+mongoose.connect("mongodb://localhost:27017/project-db", function (err, db) {
+//mongoose.connect("mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso", function (err, db) {
     if (!err) {
         console.log("we are connected to mongo online");
     }
@@ -82,6 +84,11 @@ app.use(function(req,res,next){
 	next();
 });
 
+app.get('/events', function(req, res){
+	db.events.find(function(err, docs){
+		res.json(docs);
+	})
+});
 
 
 app.get('/clients', function(req, res){
@@ -336,6 +343,16 @@ app.put('/client/renew/update', function(req, res){
 										})
 	});
 
+app.post('/clients/check', function(req, res){
+		db.applications.findOne({"lastname":req.body.lastname,"firstname":req.body.firstname},function(err, docs){
+		res.json(docs);
+	})
+});
+app.post('/clients/check2', function(req, res){
+		db.applications.find({"lastname":req.body.lastname, "firstname":req.body.firstname,  _id : {$ne: new mongojs.ObjectId(req.body._id)}},function(err, docs){
+		res.json(docs);
+	})
+});
 
 app.post('/healthcard/add', function(req, res){
 	db.healthcards.insert(req.body, function(docs){
@@ -343,15 +360,118 @@ app.post('/healthcard/add', function(req, res){
 	})
 });
 
+app.post('/login/check', function(req, res){
+		db.accounts.findOne({"username":req.body.username, "password":req.body.password},function(err, docs){
+		res.json(docs);
+	})
+});
 
-/*app.get('/', function(request, response) {
+app.post('/is_login', function(req, res){
+		db.accounts.findOne({"username": "admin", "password": "admin"},function(err, docs){
+		res.json(docs);
+	})
+});
+
+app.put('/login', function(req, res){
+	db.accounts.findAndModify({query: {username:"admin",password:"admin"}, 
+										update: {$set: {
+											is_login: "yes",
+							            	}}
+										}, function(err, docs){
+											res.json(docs);
+										})
+	});
+
+
+app.put('/logout', function(req, res){
+	db.accounts.findAndModify({query: {username:"admin",password:"admin"}, 
+										update: {$set: {
+											is_login: "no",
+							            	}}
+										}, function(err, docs){
+											res.json(docs);
+										})
+	});
+
+
+app.post('/events/add', function(req, res){
+	db.events.insert(req.body, function(docs){
+		res.json(docs);
+	})
+});
+
+app.put('/event/update', function(req, res){
+	db.events.findAndModify({query: {_id: new mongojs.ObjectId(req.body._id)}, 
+										update: {$set: {
+											title:req.body.title,    
+											date:req.body.date,
+											location:req.body.location,
+											slug:req.body.slug, 
+											description:req.body.description,     
+											date_modified:req.body.date_modified,   
+							        	}}
+										}, function(err, docs){
+											res.json(docs);
+										})
+	});
+
+app.get('/event/:id', function(req, res){
+var checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$");
+ if(checkForHexRegExp.test(req.params.id)){
+ 	db.events.findOne({_id: new mongojs.ObjectId(req.params.id)},function(err, docs){
+		res.json(docs);
+	})
+ }else{
+ 	res.json({"status":"invalid"});
+ }
+
+});
+
+app.get('/events/:slug', function(req, res){
+ 	db.events.findOne({slug: req.params.slug},function(err, docs){
+		res.json(docs);
+	})
+
+});
+
+
+app.delete('/event/delete/:id', function(req, res){
+	db.events.remove({_id: new mongojs.ObjectId(req.params.id)}, function(err, docs){
+		res.json(docs);
+	});
+});
+
+app.post('/event/check', function(req, res){
+		db.events.findOne({"slug":req.body.slug},function(err, docs){
+		res.json(docs);
+	})
+});
+
+app.post('/events/count', function(req, res){
+	db.events.count(function(err, docs){
+		res.json(docs);
+	})
+});
+
+app.get('/', function(request, response) {
   response.render('index.html');
-});*/
+});
 
-//app.listen(5000);
-//console.log("server running on port 5000");
-app.set('port', (process.env.PORT || 5000));
+
+function createToken(user) {
+	var payload = {
+		sub: user._id,
+		iat: moment().unix(),
+		exp: moment().add(14, 'days').unix()
+	};
+	return jwt.encode(payload, 'secret');
+}
+
+
+app.listen(5000);
+console.log("server running on port 5000");
+/*app.set('port', (process.env.PORT || 5000));
 
 var server = app.listen(app.get('port'), function () {
     console.log('listening on port ', server.address().port)
-})
+})*/
