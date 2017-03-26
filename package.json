@@ -26,7 +26,8 @@
     "http":"latest",
     "fs":"latest",
     "angular-local-storage":"0.5.2",
-    "angular-slugify": "1.0.1"
+    "angular-slugify": "1.0.1",
+     "ngbootbox": "0.1.2"
   },
   "author": "Christian Mark Maghanoy <maghanoycm@gmail.com>",
   "license": "CC-BY-1.0",

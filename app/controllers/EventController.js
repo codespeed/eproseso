@@ -4,7 +4,7 @@
     var eprosesoApp = angular.module("eprosesoApp");
     //var jq = $.noConflict();
 
-    var EventController = function ($scope,Slug, ClientService, $http, $routeParams,$location,$timeout)
+    var EventController = function ($scope,Slug, ClientService, $http, $routeParams,$location,$timeout,$ngBootbox)
     {
 
         //common error function
@@ -131,14 +131,35 @@
                         "date_modified":datetime
                     };
 
-                     if (window.confirm("Are you sure you want to add?")) { 
-                     $http.post('/events/add', event_data).then(
-                        function(response){
-                          next_id();
-                            $location.path('/events');
-                        }
-                    , onError);
-                   }
+
+                var options = {
+                message: 'Are you sure you want to add?',
+                buttons: {
+                     warning: {
+                         label: "No",
+                         className: "btn-danger"
+                     },
+                     success: {
+                         label: "Yes",
+                         className: "btn-success",
+                         callback: function() { 
+                            $http.post('/events/add', event_data).then(
+                              function(response){
+                                next_id();
+                                  $location.path('/events');
+                              }
+                          , onError);
+                         }
+                     }
+                }
+            };
+          $ngBootbox.customDialog(options);
+
+
+
+                    // if (window.confirm("Are you sure you want to add?")) { 
+                   
+                  // }
 
                   }
 
@@ -193,28 +214,64 @@
                         "description":$scope.tinymceModel,
                         "date_modified":datetime
                     };
-                     if (window.confirm("Are you sure you want to update?")) { 
+                     
+                      var options = {
+                        message: 'Are you sure you want to delete?',
+                        buttons: {
+                             warning: {
+                                 label: "No",
+                                 className: "btn-danger"
+                             },
+                             success: {
+                                 label: "Yes",
+                                 className: "btn-success",
+                                 callback: function() { 
 
-                     $http.put('/event/update', event_data).then(
-                        function(response){
-                            $location.path('/events');
+                                     $http.put('/event/update', event_data).then(
+                                function(response){
+                                    $location.path('/events');
+                                }
+                            , onError);
+                                 }
+                             }
                         }
-                    , onError);
+                    };
+                  $ngBootbox.customDialog(options);
+          
+
+                    
 
                    }
 
-                  }
+               
 
               };
 
                $scope.deleteEvent = function(id){
-                 if (window.confirm("Are you sure you want to delete?")) { 
-                      $http.delete('/event/delete/' + id)
-                    .then(function(){
-                      load_events();
-                    },  onError);
 
-                 }
+
+                 var options = {
+                message: 'Are you sure you want to delete?',
+                buttons: {
+                     warning: {
+                         label: "No",
+                         className: "btn-danger"
+                     },
+                     success: {
+                         label: "Yes",
+                         className: "btn-success",
+                         callback: function() { 
+
+                            $http.delete('/event/delete/' + id)
+                              .then(function(){
+                                load_events();
+                              },  onError);
+
+                         }
+                     }
+                }
+            };
+          $ngBootbox.customDialog(options);
             
     
             };

@@ -8,7 +8,6 @@
 
     // eprosesoApp.value('clientId', { value: 'gg'} );
 
-
          eprosesoApp.factory('ClientService', function() {
         return {
             pending : '',
@@ -20,9 +19,7 @@
     });
 
   
-
-
-    var ClientController = function ($scope,ClientService, $http, $routeParams,$location,$timeout)
+    var ClientController = function ($scope,ClientService, $http, $routeParams,$location,$timeout,$ngBootbox)
     {
     	$scope.working = 'Angular is Working';
         //common error function
@@ -81,8 +78,9 @@
                 $scope.clients_expired_list =  response;
                 //console.log(response);
 
+
                  angular.forEach($scope.clients_expired_list, function(value, key){
-                    //console.log(value._id);
+                    console.log(value._id);
                       $http.put("/clients/expired/update",{"application_id":value._id}).then(
                         function(response){ 
                         //renewal list
@@ -117,6 +115,16 @@
 
          $scope.getClientID = function(id){
            ClientService.application_id = id;
+           $scope.requirement1 = "false";
+           $scope.requirement2 = "false";
+           $scope.requirement3 = "false";
+           $scope.requirement4 = "false";
+           $scope.checkedRequirements="false";
+           $scope.next_disabled= "true";
+           jq('#verification_code').val("");
+           jq('#verification_code').parent().parent().removeClass("has-error");
+           jq('#verification_code').next().css("display","none");
+
            jq('#verify-client').modal({
                 show: 'false'
             }); 
@@ -439,6 +447,8 @@
                 hc_icoe_contact_number : jq("#r_ioe_contact").val()
             };
 
+            if (window.confirm("Are you sure you want to renew?")) { 
+
             $http.put("/client/renew/update/", client_data).then(
                 function(response){
                   
@@ -446,13 +456,18 @@
             ,onError);
             $http.put("/healthcard/renew/update/", healthcard_data).then(
                 function(response){
-                   jq('.message-alert-renew').append('<div class="callout callout-success"> <h4>Client has been successfully renewed.</h4> </div>');
+                   load_clients();
+                   jq('#renew-client .close').trigger("click"); 
+
+                   /*jq('.message-alert-renew').append('<div class="callout callout-success"> <h4>Client has been successfully renewed.</h4> </div>');
                                     $timeout(function(){
                                         load_clients();
                                         jq('#renew-client .close').trigger("click"); 
-                                    }, 2500);
+                                    }, 2500);*/
                 }
             ,onError);
+
+          }
 
          }else{
           window.alert("Please enter all fields.");
@@ -471,6 +486,18 @@
                 }
             , onError);
         };
+
+
+        var getAge = function (dateString) {
+		        var today = new Date();
+		        var birthDate = new Date(dateString);
+		        var age = today.getFullYear() - birthDate.getFullYear();
+		        var m = today.getMonth() - birthDate.getMonth();
+		        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+		            age--;
+		        }
+		        return age;
+    		};
 
   
 
@@ -495,15 +522,38 @@
                         $scope.client = response.data;
                         $scope.lastname2 = response.data.lastname;
                         $scope.firstname2 = response.data.firstname;
-
+                        var birthday = response.data.birthday,
+                            bday = birthday.split("-");
+                            $scope.bmonth= bday[0];
+                            $scope.bday= bday[1];
+                            $scope.byear= bday[2];
                         $http.get('/healthcard/'+id)
                                 .then(function(res){
                                    $scope.healthcard = res.data;
+                                  
+                                  var cedula = res.data.hc_cedula_date_issued,
+                                      cday = cedula.split("-");
+                                      $scope.cmonth= cday[0];
+                                      $scope.cday= cday[1];
+                                      $scope.cyear= cday[2];
+                                      console.log(response.data.hc_cedula_date_issued);
+
+                                  var orday = res.data.hc_OR_fee_number_date_issued,
+                                      oday = orday.split("-");
+                                      $scope.ormonth= oday[0];
+                                      $scope.orday= oday[1];
+                                      $scope.oryear= oday[2];
+                                      var age = "";
+                                      if(res.data.hc_age==""){
+                                      	$scope.healthcard.hc_age = getAge(birthday);	
+                                      }
+
                                 });
                     }
                 }
             , onError);
         };
+
 
         var isEmail = function (emailAddress) {
             var pattern = /^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([ \t]*\r\n)?[ \t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([ \t]*\r\n)?[ \t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
@@ -620,14 +670,38 @@
         jq('.txt-email').css("display","block");
         has_error = true;
       }
-    /* window.alert(isEmail(jq("#email").val()));
-     if(!isEmail(jq("#email").val()) && jq("#email").val().length > 0){
-        jq('#email').parent().parent().addClass("has-error");
-        has_error = true;
-        window.alert("Invalid Email.");
-     }else{
-        jq('#email').parent().parent().removeClass("has-error");
-     }*/
+
+      var is_bday = false,
+          bday = "",
+          cday = "",
+          orday = "",
+          age = "";
+        jq('.bd, .dd').each(function(item){
+                if($(this).val() == "0"){
+                  $(this).css("border-color","#dd4b39");
+                    has_error = true;
+                }else{
+                    $(this).css("border-color","#d2d6de"); 
+                    is_bday = true;
+                }   
+            });
+      if(is_bday == true){
+        bday = jq("#bd-month").val()+"-"+jq("#bd-day").val()+"-"+jq("#bd-year").val();
+        cday = jq("#c-month").val()+"-"+jq("#c-day").val()+"-"+jq("#c-year").val();
+        orday = jq("#or-month").val()+"-"+jq("#or-day").val()+"-"+jq("#or-year").val();
+      
+         if(parseInt(jq("#age").val()) <= 17){
+            has_error = true;
+            jq('#age').parent().parent().addClass("has-error");
+            jq('.txt-age').css("display","block");
+         }else{
+          jq('#age').parent().parent().removeClass("has-error");
+          jq('.txt-age').css("display","none");
+          age = jq("#age").val();
+         }
+      }
+
+
 
 
 
@@ -648,7 +722,7 @@
                 "nickname":client.nickname,
                 "gender":client.gender,
 
-                "birthday":client.birthofdate,
+                "birthday":bday,
                 "status":client.civilstatus,
                 "nationality":client.nationality,
                 "contact":client.contactno,
@@ -660,7 +734,7 @@
                 "ioe_address":client.icoe_address,
                 "ioe_contact":client.icoe_contactno,
 
-                "ioe_establishment":client.establishment,
+                "ioe_establishment":"n/a",
                 "profile_picture":"",
                 "account_status":"approved",
                 "type":"Walk-in",
@@ -674,14 +748,14 @@
                 "hc_lastname" : client.lastname,
                 "hc_firstname" : client.firstname,
                 "hc_middlename" : healthcard.middlename,
-                "hc_age" : healthcard.age,
+                "hc_age" : age,
                 "hc_sex" : client.gender,
                 "hc_civilstatus" : client.civilstatus,
                 "hc_nationality" : client.nationality,
                 "hc_cedula" : healthcard.cedula,
-                "hc_cedula_date_issued" : healthcard.cedula_date_issued,
+                "hc_cedula_date_issued" : cday,
                 "hc_OR_fee_number" : healthcard.or_fee_no,
-                "hc_OR_fee_number_date_issued" : healthcard.or_fee_no_date_issued,
+                "hc_OR_fee_number_date_issued" : orday,
                 "hc_icoe_name" : client.icoe_name,
                 "hc_icoe_relation": client.icoe_relation,
                 "hc_icoe_address" : client.icoe_address,
@@ -698,43 +772,72 @@
             };
 
 
-            if (window.confirm("Are you sure you want to add?")) { 
+            var options = {
+                        message: 'Are you sure you want to add?',
+                        buttons: {
+                             warning: {
+                                 label: "No",
+                                 className: "btn-danger"
+                             },
+                             success: {
+                                 label: "Yes",
+                                 className: "btn-success",
+                                 callback: function() { 
+
+                                      $http.post("/clients/check",{lastname:client.lastname, firstname:client.firstname}).then(
+                                        function(response){
+                                    
+                                          if(response.data !== null){
+                                            $('#lastname,#firstname').parent().parent().addClass("has-error");
+                                             window.alert("Name already exists, Please enter a new name.");
+
+                                          }else{
+                                              $http.post('/client/add', client_data).then(
+                                        function(response){
+                                            $scope.client = response.data;
+                                            next_id();
+                                        }
+                                    , onError);
+
+                                        $http.post('/healthcard/add', healthcard_data).then(
+                                            function(response){
+                                                $scope.healthcard = response.data;
+                                                next_id();
+                                                 $location.path('/clients');
+                                            }
+                                        , onError);
+
+                                          }
+                                         
+                                        } 
+                                    ,onError);
+
+
+
+
+                                 }
+                             }
+                        }
+                    };
+                  $ngBootbox.customDialog(options);
+
+
  
                
 
-            $http.post("/clients/check",{lastname:client.lastname, firstname:client.firstname}).then(
-                function(response){
-            
-                  if(response.data !== null){
-                    $('#lastname,#firstname').parent().parent().addClass("has-error");
-                     window.alert("Name already exists, Please enter a new name.");
+          
 
-                  }else{
-                      $http.post('/client/add', client_data).then(
-                function(response){
-                    $scope.client = response.data;
-                    next_id();
-                }
-            , onError);
 
-                $http.post('/healthcard/add', healthcard_data).then(
-                    function(response){
-                        $scope.healthcard = response.data;
-                        next_id();
-                         $location.path('/clients');
-                    }
-                , onError);
 
-                  }
-                 
-                } 
-            ,onError);
 
-             }
+
 
 
             }else{
-                window.alert("Please enter all fields.");
+                //window.alert("Please enter all fields.");
+
+                $ngBootbox.alert('Please enter all fields.');
+
             }
                 
 
@@ -780,12 +883,46 @@
               }
 
 
-           // window.alert(has_error_edit);
-           
+            var is_bday = false,
+            bday = "",
+            age = "",
+            cday = "",
+            orday = "";
+            jq('.bd, .dd').each(function(item){
+                    if($(this).val() == "0"){
+                      $(this).css("border-color","#dd4b39");
+                        has_error_edit = true;
+                    }else{
+                        $(this).css("border-color","#d2d6de"); 
+                        is_bday = true;
+                    }   
+                });
+          if(is_bday == true){
+            bday = jq("#bd-month").val()+"-"+jq("#bd-day").val()+"-"+jq("#bd-year").val();
+            cday = jq("#c-month").val()+"-"+jq("#c-day").val()+"-"+jq("#c-year").val();
+            orday = jq("#or-month").val()+"-"+jq("#or-day").val()+"-"+jq("#or-year").val();
+             
+             if(parseInt(jq("#age").val()) <= 17){
+                has_error_edit = true;
+                jq('#age').parent().parent().addClass("has-error");
+                jq('.txt-age').css("display","block");
+             }else{
+              jq('#age').parent().parent().removeClass("has-error");
+              jq('.txt-age').css("display","none");
+               age = jq('#age').val();
+             }
+          }
+
+
             if(has_error_edit === false){
+
+              client.birthday = bday;
 
                healthcard.lastname = client.lastname;
                 healthcard.firstname = client.firstname;
+                healthcard.hc_age  = age;
+                healthcard.hc_cedula_date_issued = cday;
+                healthcard.hc_OR_fee_number_date_issued = orday;
                 healthcard.gender  = client.gender;
                 healthcard.civilstatus = client.status;
                 healthcard.nationality = client.nationality;
@@ -797,28 +934,50 @@
 
 
 
+
+
             if(jq('#lastname2').val() == jq('#lastname').val() && jq('#firstname2').val() == jq('#firstname').val()){
-                
-                  if (window.confirm("Are you sure you want to update?")) { 
-                $http.put("/client/update/", client).then(
-                function(response){
-                  
-                }
-            ,onError);
 
-                $http.put("/healthcard/update/", healthcard).then(
-                function(response){
-                     
-                    jq('.msg-alert').append('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> <h4><i class="icon fa fa-check"></i> Successfully updated.</h4> </div> ');
 
-                   jq('html, body').animate({
-                        scrollTop: jq(".header-name").offset().top
-                    }, 1000);
+                var options = {
+                        message: 'Are you sure you want to update?',
+                        buttons: {
+                             warning: {
+                                 label: "No",
+                                 className: "btn-danger"
+                             },
+                             success: {
+                                 label: "Yes",
+                                 className: "btn-success",
+                                 callback: function() { 
+                    
+                                    $http.put("/client/update/", client).then(
+                                      function(response){
+                                        
+                                      }
+                                  ,onError);
 
-                }
-            ,onError);
+                                      $http.put("/healthcard/update/", healthcard).then(
+                                      function(response){
+                                           
+                                          jq('.msg-alert').append('<div class="alert alert-success alert-dismissible"> <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button> <h4><i class="icon fa fa-check"></i> Successfully updated.</h4> </div> ');
 
-              }
+                                         jq('html, body').animate({
+                                              scrollTop: jq(".header-name").offset().top
+                                          }, 1000);
+
+                                      }
+                                  ,onError);
+
+
+                                 }
+                             }
+                        }
+                    };
+                  $ngBootbox.customDialog(options);
+
+
+
 
             }else if((jq('#lastname2').val() == jq('#lastname').val() && jq('#firstname2').val() != jq('#firstname').val()) || (jq('#firstname2').val() == jq('#firstname').val() && jq('#lastname2').val() != jq('#lastname').val())){
               
@@ -832,10 +991,21 @@
 
                   }else{
 
-                     if (window.confirm("Are you sure you want to update?")) { 
+                   
                      
+                     var options = {
+                        message: 'Are you sure you want to update?',
+                        buttons: {
+                             warning: {
+                                 label: "No",
+                                 className: "btn-danger"
+                             },
+                             success: {
+                                 label: "Yes",
+                                 className: "btn-success",
+                                 callback: function() { 
 
-                      $http.put("/client/update/", client).then(
+                                    $http.put("/client/update/", client).then(
                 function(response){
                   
                 }
@@ -852,8 +1022,19 @@
 
                 }
             ,onError);
+                
 
-              }
+                                 }
+                             }
+                        }
+                    };
+                  $ngBootbox.customDialog(options);
+
+
+                    
+
+            
+
                     
 
 
@@ -874,7 +1055,7 @@
 
 
             }else{
-                window.alert("Please enter all fields.");
+                $ngBootbox.alert('Please enter all fields.');
             }
             
         };

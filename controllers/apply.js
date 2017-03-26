@@ -47,6 +47,7 @@ module.exports = {
             date_expired = yyyy+mm+dd;
 
 			var verification_code = Math.floor(1000 + Math.random() * 9000);
+			data.hc_age = '';
 			data.request_status = 'pending';
 			data.verification_code = verification_code;
 			data.hc_contact = req.body.contact;
@@ -54,7 +55,7 @@ module.exports = {
 			data.date_expired = date_expired;
 
 
-			var contact_number = req.body.contact
+			var contact_number = "63"+req.body.contact;
 
 			var hc = new HealthCard(data);
 			hc.save(function (err, result) {
@@ -90,7 +91,10 @@ module.exports = {
 			    form: data
 				}
 
-				requestify.get('http://www.txtlocal.com/sendsmspost.php?uname=maghanoycm@gmail.com&pword=T3@mMckee&selectednums='+contact_number+'&from=EProseso&info=1&message=Verification%20Code:'+ verification_code).then(function(response) {
+				var  txtlocal_username = "cabaralnovem@gmail.com";
+				var txtlocal_password= "Eric061714";
+
+				requestify.get('http://www.txtlocal.com/sendsmspost.php?uname='+txtlocal_username+'&pword='+txtlocal_password+'&selectednums='+contact_number+'&from=EProseso&info=1&message=Verification%20Code:'+ verification_code).then(function(response) {
 						// Get the response body
 						console.log(response.getBody());
 					});

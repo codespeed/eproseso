@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-    var app = angular.module("eprosesoApp", ['ngRoute', 'angular-loading-bar','angularUtils.directives.dirPagination','angular.filter', 'ui.tinymce', 'slugifier']);
+    var app = angular.module("eprosesoApp", ['ngRoute', 'angular-loading-bar','angularUtils.directives.dirPagination','angular.filter', 'ui.tinymce', 'slugifier','ngBootbox']);
     app.config(function ($routeProvider) {
         $routeProvider
          .when("/events", {

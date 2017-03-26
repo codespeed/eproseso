@@ -68,12 +68,15 @@
     <link rel="stylesheet" href="/node_modules/angular-loading-bar/build/loading-bar.min.css">
 
     <script type="text/javascript" src="/node_modules/angular-slugify/angular-slugify.js"></script>
+    <script type="text/javascript" src="/node_modules/ngbootbox/dist/ngBootbox.min.js"></script>
+    
     <script src="/lib/dirPagination.js"></script>
 
    <script type="text/javascript" src="/bower_components/tinymce/tinymce.js"></script>
     <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
   <script type="text/javascript" src="/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
 
+  
 
     <script type="text/javascript" src="eproseso.js"></script>
 
@@ -204,12 +207,33 @@
       });
       $(document).on("keypress",".letter-only", function(event){
           var inputValue = event.charCode;
-        if(!(inputValue >= 65 && inputValue <= 120) && (inputValue != 32 && inputValue != 0)){
-            event.preventDefault();
-        }
+         
+            if(!(inputValue >= 65 && (inputValue >= 91 || inputValue <= 120)) && (inputValue != 32 && inputValue != 0)){
+              event.preventDefault();
+          }
+   
+        
 
       });
 
+      $(document).on("change",".dd, .bd",function(){
+        $(this).css("border-color","#d2d6de");
+      });
+
+      $(document).on("change","#bd-year",function(){
+        if($(this).val()!="0" && $("#bd-month").val()!="0" && $("#bd-day").val()!="0"){
+          var age_string = $(this).val()+"/"+$("#bd-month").val()+"/"+$("#bd-day").val();
+            var age = getAge(age_string.toString());
+            $("#age").val(age);
+            if(age > 17){
+              $("#age").parent().parent().removeClass("has-error");
+              $(".txt-age").css("display","none");
+            }else{
+              $("#age").parent().parent().addClass("has-error");
+              $(".txt-age").css("display","block");
+            }
+          }
+      });
 
       $(document).on("keydown",".number-only",function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
@@ -227,6 +251,16 @@
         }
     });
 
+    function getAge(dateString) {
+        var today = new Date();
+        var birthDate = new Date(dateString);
+        var age = today.getFullYear() - birthDate.getFullYear();
+        var m = today.getMonth() - birthDate.getMonth();
+        if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+            age--;
+        }
+        return age;
+    }
 
 
 $(document).ajaxStart(function() { Pace.restart(); }); 
