@@ -468,7 +468,7 @@ function createToken(user) {
 }
 
 
-app.listen(5000);
+app.listen(80);
 console.log("server running on port 5000");
 /*app.set('port', (process.env.PORT || 5000));
 
