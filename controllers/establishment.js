@@ -1,4 +1,4 @@
-var Establishment = require('./models/establishment');
+var Establishment = require('./EstablishmentModel');
 
 module.exports = {
     get: function (req, res) {
