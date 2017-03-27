@@ -30,7 +30,8 @@
      "ngbootbox": "0.1.2",
      "qs": "6.4.0",
      "jwt-simple":"0.5.1",
-     "moment":"2.18.1"
+     "moment":"2.18.1",
+     "nodemailer":"3.1.8"
   },
   "author": "Christian Mark Maghanoy <maghanoycm@gmail.com>",
   "license": "CC-BY-1.0",
