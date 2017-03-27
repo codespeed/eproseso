@@ -1,5 +1,5 @@
-var HealthCard = require('../models/healthcard');
-var Application = require('../models/application');
+var HealthCard = require('./models/healthcard');
+var Application = require('./models/application');
 
 var jwt = require('jwt-simple');
 var moment = require('moment');

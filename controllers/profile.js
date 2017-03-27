@@ -1,4 +1,4 @@
-var Application = require('../models/application');
+var Application = require('./models/application');
 
 var jwt = require('jwt-simple');
 var moment = require('moment');
