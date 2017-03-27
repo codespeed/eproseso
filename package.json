@@ -4,8 +4,8 @@
   "version": "0.0.1",
   "description": "Eproseso - PhilHealth Online Registration",
     "engine": {
-    "node": "*",
-    "npm": "*"
+    "node": "6.9.1",
+    "npm": "3.10.8"
   },
   "main": "server.js",
   "scripts": {
@@ -16,15 +16,15 @@
     "url": "http://github.com/codespeed/eproseso.git"
   },
   "dependencies": {
-    "express": "latest",
-    "mongojs":"latest",
-    "bodyparser":"latest",
-    "urlencode":"latest",
-    "mongoose":"latest",
-    "request":"latest",
-    "requestify":"latest",
-    "http":"latest",
-    "fs":"latest",
+    "express": "4.15.2",
+    "mongojs":"2.4.0",
+    "body-parser":"1.17.1",
+    "urlencode":"1.1.0sudo",
+    "mongoose":"4.9.2",
+    "request":"2.81.0",
+    "requestify":"0.2.5",
+    "http":"0.0.0",
+    "fs":"0.0.1node -",
     "angular-local-storage":"0.5.2",
     "angular-slugify": "1.0.1",
      "ngbootbox": "0.1.2"
