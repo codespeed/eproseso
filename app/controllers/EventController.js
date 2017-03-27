@@ -59,10 +59,11 @@
                 }
             , onError);
         };
-              $scope.tinymceOptions = {
+             
+              /*$scope.tinymceOptions = {
                 plugins: 'link image code',
                 //toolbar: 'undo redo | bold italic | alignleft aligncenter alignright | code'
-              };
+              };*/
 
                $scope.next_id= 1;
         $http.post('/events/count')
