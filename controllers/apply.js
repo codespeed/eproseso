@@ -1,6 +1,6 @@
 
 
-var HealthCard = require('./HealthcardModel');
+var HealthCard = require('./HealthCardModel');
 var Application = require('./ApplicationModel');
 
 var jwt = require('jwt-simple');
