@@ -1,6 +1,6 @@
 'use strict'; //for node mailer
 
-var User = require('../models/user');
+//var User = require('../models/user');
 var Application = require('../models/application');
 var Establishment = require('../models/establishment');
 var jwt = require('jwt-simple');
