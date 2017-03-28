@@ -631,7 +631,7 @@
                 mm_text ="Dec";
             }
             //var date_expired_number = yyyy+mm+dd;
-            var date_expired_number = 2016+mm+dd;
+            var date_expired_number = yyyy+mm+dd;
             var date_expired_text = mm_text+"-"+dd+"-"+yyyy;
 
             var has_error = false;
