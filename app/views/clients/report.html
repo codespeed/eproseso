@@ -233,7 +233,9 @@
                 
                   <div class="modal-body">
 
-                 <iframe src="{{reportURL | trustAsResourceUrl}}"></iframe>
+                 <iframe ng-show="daily" src="{{reportDaily | trustAsResourceUrl}}"></iframe>
+                 <iframe ng-show="monthly" src="{{reportMonthly | trustAsResourceUrl}}"></iframe>
+                 <iframe ng-show="yearly" src="{{reportYearly | trustAsResourceUrl}}"></iframe>
 
                   </div>
                
