@@ -483,40 +483,6 @@ app.get('/', function(request, response) {
 });
 
 
-
-
-/*app.engine('php', php);
-app.set('view engine', 'php');
-app.get('/report', function(request, response) {
-  response.render('report.php');
-  //response.render('app/views/login.html');
-});
-*/
-
-
-/*var server = http.createServer(function (req, resp) {
-    if (req.url === "/report") {
-        fs.readFile("report.php", function (error, pgResp) {
-            if (error) {
-                resp.writeHead(404);
-                resp.write('Contents you are looking are Not Found');
-            } else {
-                resp.writeHead(200, { 'Content-Type': 'text/html' });
-                resp.write(pgResp);
-            }
-             
-            resp.end();
-        });
-    } else {
-        //4.
-        resp.writeHead(200, { 'Content-Type': 'text/html' });
-        resp.write('<h1>Product Manaager</h1><br /><br />To create product please enter: ' + req.url);
-        resp.end();
-    }
-});
-*/
-
-
 function createToken(user) {
 	var payload = {
 		sub: user._id,
