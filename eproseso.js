@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-    var app = angular.module("eprosesoApp", ['ngRoute', 'angular-loading-bar','angularUtils.directives.dirPagination','angular.filter', 'ui.tinymce', 'slugifier','ngBootbox']);
+    var app = angular.module("eprosesoApp", ['ngRoute', 'angular-loading-bar','angularUtils.directives.dirPagination','angular.filter', 'slugifier','ngBootbox']);
     app.config(function ($routeProvider) {
         $routeProvider
          .when("/events", {
@@ -64,8 +64,19 @@
             templateUrl: 'app/views/login.html',
             controller: "LogoutController"
         })
+       .when("/report", {
+            templateUrl: 'app/views/clients/report.html',
+            controller: "ReportController"
+        })
         .otherwise({ redirectTo: "/login" });
-    });
+    })
+    .filter('trustAsResourceUrl', ['$sce', function($sce) {
+    return function(val) {
+        return $sce.trustAsResourceUrl(val);
+    };
+}])
+
+
 
 }());
 

@@ -19,7 +19,7 @@
     });
 
   
-    var ClientController = function ($scope,ClientService, $http, $routeParams,$location,$timeout,$ngBootbox)
+    var ClientController = function ($scope,ClientService, $http, $routeParams,$location,$timeout,$ngBootbox, $sce)
     {
     	$scope.working = 'Angular is Working';
         //common error function
@@ -29,6 +29,11 @@
         //end error function
 
         ClientService.logout = false;
+
+         
+       $scope.currentProjectUrl = $sce.trustAsResourceUrl("http://ec2-54-186-5-126.us-west-2.compute.amazonaws.com/report/view.php");
+      
+
 
         $http.post("/is_login/").then(
                 function(response){
@@ -73,7 +78,7 @@
         });
 
           
-          $scope.clients_expired_list = []; //declare an empty array
+        $scope.clients_expired_list = []; //declare an empty array
          $http.get("/clients/expired").success(function(response){ 
                 $scope.clients_expired_list =  response;
                 //console.log(response);
@@ -128,6 +133,7 @@
            jq('#verify-client').modal({
                 show: 'false'
             }); 
+
          };
 
         
@@ -222,7 +228,8 @@
                             var date_expired = new Date();
                             var dd = date_expired.getDate();
                             var mm = date_expired.getMonth()+1; //January is 0!
-                            var yyyy = date_expired.getFullYear();
+                            var yyyy = date_expired.getFullYear() + 1;
+                            var yy = date_expired.getFullYear();
                             if(dd<10) {
                                 dd='0'+dd;
                             } 
@@ -256,11 +263,24 @@
                             }
                             var date_expired_number = yyyy+mm+dd;
                             var date_expired_text = mm_text+"-"+dd+"-"+yyyy;
+                            var d = mm_text+"-"+dd+"-"+yy;
+                            var m = mm_text;
+                            var y = yy;
+                            var verification_code = $scope.verification_code;
+                            var gid =1;
+                            if(res.data.hc_sex=="female"){
+                              gid= 0;
+                            }
+                            var hid = y_id + "-"+mm+verification_code+dd+"-"+gid;
 
                             var client_data = {
                                                 "_id":ClientService.application_id,
                                                 "date_expired_number":date_expired_number,
-                                                "date_expired_text":date_expired_text
+                                                "date_expired_text":date_expired_text,
+                                                "d":d,
+                                                "m":m,
+                                                "y":y,
+                                                "hid":hid
                                                };
 
                             $http.put("/client/approved/", client_data).then(
@@ -268,6 +288,8 @@
                                       
                                     }
                                 ,onError);
+
+
                              var healthcard_data = {
                                                 "application_id":ClientService.application_id,
                                                };
@@ -561,10 +583,55 @@
         }
 
 
+    /*  $scope.url = 'http://ec2-54-186-5-126.us-west-2.compute.amazonaws.com/report/view.php';
+       $scope.$watch('url', function () {
+        $scope.parser.href = $scope.url;
+    });
+    $scope.init = function () {
+  
+        $scope.parser = document.createElement('a');
+        $scope.url = window.location;
+
+        $('#openColorbox p').click(function (e) {
+              window.alert('k');
+            $.colorbox({
+                inline: true,
+                height: "400px",
+                width: "400px",
+                href: "div#colorboxContent"
+            });
+
+        });
+
+        $("#colorboxCloseBtn").click(function () {
+            $.colorbox.close();
+        });
+    }
+     $scope.init();*/
+
+   /*  $('#openColorbox a').click(function (e) {
+      //e.preventDefault();
+
+         //window.alert("k");
+            $.colorbox({
+                iframe: true,
+                height: "400px",
+                width: "400px",
+                href: "div#colorboxContent"
+            });
+         
+         $.colorbox({iframe:true, width:"90%", height:"90%"});
+
+        });
+*/
+
      
         if($location.url()=="/clients"){
              //refresh();
               load_clients();
+
+              
+
         }else if($location.url()=="/clients/add"){
             $scope.client = null;
 
@@ -597,7 +664,8 @@
             var date_expired = new Date();
             var dd = date_expired.getDate();
             var mm = date_expired.getMonth()+1; //January is 0!
-            var yyyy = date_expired.getFullYear() + 1;
+            var yyyy = date_expired.getFullYear() + 1,
+                yy = date_expired.getFullYear();
             if(dd<10) {
                 dd='0'+dd;
             } 
@@ -633,6 +701,16 @@
             //var date_expired_number = yyyy+mm+dd;
             var date_expired_number = yyyy+mm+dd;
             var date_expired_text = mm_text+"-"+dd+"-"+yyyy;
+            var d = mm_text+"-"+dd+"-"+yy;
+            var m = mm_text;
+            var y = yy;
+            var y_id = yy.toString().substr(-2);
+            var verification_code = Math.floor(1000 + Math.random() * 9000);
+            var gid =1;
+            if(client.gender=="female"){
+              gid= 0;
+            }
+            var hid = y_id + "-"+mm+verification_code+dd+"-"+gid;
 
             var has_error = false;
             jq('.form-control').each(function(item){
@@ -740,7 +818,8 @@
                 "type":"Walk-in",
                  "__v":0,
                 "date_expired_text":date_expired_text,
-                "date_expired_number":parseInt(date_expired_number)
+                "date_expired_number":parseInt(date_expired_number),
+                "d":d
             };
 
             var healthcard_data = {
@@ -767,8 +846,11 @@
                 "request_status" : "approved",
                 "verification_code": "0000",
                 "hc_contact": client.contactno,
-                "application_id": ""
-               
+                "application_id": "",
+                "d":d,
+                "m":m,
+                "y":y,
+                "hid":hid
             };
 
 
@@ -1045,20 +1127,22 @@
 
             }
 
-
-
-              
-
-                
-
-               
-
-
             }else{
                 $ngBootbox.alert('Please enter all fields.');
             }
             
         };
+
+    /*  $scope.viewReport = function(){
+          $http.post
+
+      };*/
+
+      $scope.viewReportBy = function(){
+        window.alert("k");
+      };
+
+     
 
     }
     eprosesoApp.controller('ClientController', ClientController);

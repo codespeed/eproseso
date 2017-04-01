@@ -21,6 +21,15 @@
     display: none;
   }
 
+  .view-report .modal-dialog {
+    width: 1070px !important;
+  }
+  .view-report iframe{
+    border:none;
+    width:1040px;
+    height:700px;
+  }
+
 /*  ::-webkit-scrollbar { width: 10px; height: 1px;}
 
 ::-webkit-scrollbar-button {  background-color: #367FA9; }
@@ -166,4 +175,8 @@ color:#ddd !important;
 
 .capitalize{
   text-transform: capitalize;
+}
+
+#view-report .modal-content{
+  padding:5px !important;
 }

@@ -25,4 +25,8 @@ module.exports = mongoose.model('Application', {
 	type:String(),
 	date_expired_text: String(),
     date_expired_number:String(),
+    d:String(),
+    m:String(),
+    y:String(),
+    hid:String(),
 });

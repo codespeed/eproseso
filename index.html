@@ -72,20 +72,29 @@
     
     <script src="/lib/dirPagination.js"></script>
 
-   <script type="text/javascript" src="/bower_components/tinymce/tinymce.js"></script>
+  <!--  <script type="text/javascript" src="/bower_components/tinymce/tinymce.js"></script> -->
     <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
-  <script type="text/javascript" src="/bower_components/angular-ui-tinymce/src/tinymce.js"></script>
 
-  
+<!--   <link rel="stylesheet" type="text/css" href="/bower_components/angular-colorbox/themes/dark/colorbox-darktheme.css" media="screen" />
+  -->
 
-    <script type="text/javascript" src="eproseso.js"></script>
 
-    <script src="/assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>
+     
+
+<!--  <script src="/bower_components/jquery-colorbox/jquery.colorbox.js"></script>
+<script src="/bower_components/angular-colorbox/js/angular-colorbox.js"></script> -->
+<script type="text/javascript" src="eproseso.js"></script>
+
+ <script src="/assets/plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <script type="text/javascript" src="app/controllers/ClientController.js"></script>
     <script type="text/javascript" src="app/controllers/LoginController.js"></script>
     <script type="text/javascript" src="app/controllers/LogoutController.js"></script>
     <script type="text/javascript" src="app/controllers/EventController.js"></script>
+    <script type="text/javascript" src="app/controllers/ReportController.js"></script>
 
+
+<link rel="stylesheet" href="/assets/plugins/colorbox/colorbox.css" />
+<script src="/assets/plugins/colorbox/jquery.colorbox.js"></script>
     
 
 
@@ -159,8 +168,6 @@
 
     <script src="/assets/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 
-     <script src="/assets/plugins/tinymce/js/tinymce/tinymce.min.js"></script>
-  <script>tinymce.init({ selector:'textarea' });</script>
 
  <script src="/assets/plugins/tags-input/jquery.tagsinput.min.js"></script>
 
@@ -175,7 +182,18 @@
           $('.main-header .sidebar-menu .main-footer').css("display","none");
         });
 
+       /*  $(document).on("click",'#report',function(){
+           $("#report2").colorbox({iframe:true, width:"90%", height:"90%"});
+         });*/
+
+         //$(".iframe").colorbox({iframe:true, width:"80%", height:"80%"});
+
+      
+
       }); //end jquery
+
+      //$(".print-sale, .btn-print-item, .btn-print-daily, .btn-print-monthly, .btn-print-yearly, .btn-print-selective").colorbox({iframe:true, width:"90%", height:"90%"});
+
 
 
 
@@ -205,12 +223,15 @@
           $(this).next(".txt-email").css("display","none");
          }
       });
+
       $(document).on("keypress",".letter-only", function(event){
           var inputValue = event.charCode;
          
             if(!(inputValue >= 65 && (inputValue >= 91 || inputValue <= 120)) && (inputValue != 32 && inputValue != 0)){
               event.preventDefault();
           }
+
+            
    
         
 
@@ -251,6 +272,19 @@
         }
     });
 
+
+
+      /*   $(document).on("click","#openColorbox p", function (e) {
+              window.alert('k');
+            $.colorbox({
+                inline: true,
+                height: "400px",
+                width: "400px",
+                href: "div#colorboxContent"
+            });
+
+        });*/
+
     function getAge(dateString) {
         var today = new Date();
         var birthDate = new Date(dateString);
@@ -261,6 +295,30 @@
         }
         return age;
     }
+
+    $(document).on("change",".view-report-by",function(){
+       var report = $(this).val();
+       //$('.btn-report').css("display","none");
+
+       if(report == "d"){
+          $('#d, #m,#y').css("display","block");
+          $(".lbl-report").text("Date");
+          $("#m").css("width","90px");
+          $("#d,#y").css("width","80px");
+       }else if(report == "m"){
+          $(".lbl-report").text("Month and Year");
+          $('#d').css("display","none"); 
+          $('#m,#y').css("display","block");
+          $("#m").css("width","135px");
+          $("#y").css("width","125px");
+       }else if(report == "y"){
+        $(".lbl-report").text("Year");
+          $('#d,#m').css("display","none"); 
+          $('#y').css({"display":"block","width":"250px"});
+       }
+
+    });
+
 
 
 $(document).ajaxStart(function() { Pace.restart(); }); 

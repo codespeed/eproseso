@@ -3,8 +3,8 @@
 var express = require('express');
 var app = express();
 var mongojs = require('mongojs');
-//var db = mongojs('project-db', ['applications','healthcards', 'accounts', 'events']);
-var db= mongojs('mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso', ['applications','healthcards']);
+var db = mongojs('project-db', ['applications','healthcards', 'accounts', 'events']);
+//var db= mongojs('mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso', ['applications','healthcards']);
 var bodyParser = require('body-parser');
 var urlencode = require('urlencode');
 var mongoose = require('mongoose');
@@ -27,6 +27,7 @@ multipartyMiddleware = multiparty();
 
 
 
+//require('php').registerExtension();
 
 //Andrew
 
@@ -65,8 +66,8 @@ app.post('/auth/registration-confirmation', auth.register_confirmation);
 app.post('/auth/login', auth.login);
 
 //Connection
-//mongoose.connect("mongodb://localhost:27017/project-db", function (err, db) {
-mongoose.connect("mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso", function (err, db) {
+mongoose.connect("mongodb://localhost:27017/project-db", function (err, db) {
+//mongoose.connect("mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso", function (err, db) {
     if (!err) {
         console.log("we are connected to mongo online");
     }
@@ -249,6 +250,7 @@ app.put('/healthcard/update', function(req, res){
 											res.json(docs);
 										})
 });
+
 app.put('/healthcard/approved', function(req, res){
 	db.healthcards.findAndModify({query: {"application_id": req.body.application_id}, 
 										update: {$set: {
@@ -258,6 +260,7 @@ app.put('/healthcard/approved', function(req, res){
 											res.json(docs);
 										})
 });
+
 app.put('/healthcard/renew/update', function(req, res){
 	db.healthcards.findAndModify({query: {"application_id": req.body.application_id}, 
 										update: {$set: {
@@ -307,19 +310,22 @@ app.put('/client/update', function(req, res){
 											res.json(docs);
 										})
 	});
+
 app.put('/client/approved', function(req, res){
 	db.applications.findAndModify({query: {_id: new mongojs.ObjectId(req.body._id)}, 
 										update: {$set: {
 											account_status:"approved",
 							                date_expired_number:req.body.date_expired_number,
-							                date_expired_text:req.body.date_expired_text
+							                date_expired_text:req.body.date_expired_text,
+							                d:req.body.d,
+							                m:req.body.m,
+							                y:req.body.y
+
 							        	}}
 										}, function(err, docs){
 											res.json(docs);
 										})
 	});
-
-   
 
 app.put('/client/renew/update', function(req, res){
 	db.applications.findAndModify({query: {_id: new mongojs.ObjectId(req.body._id)}, 
@@ -348,6 +354,7 @@ app.post('/clients/check', function(req, res){
 		res.json(docs);
 	})
 });
+
 app.post('/clients/check2', function(req, res){
 		db.applications.find({"lastname":req.body.lastname, "firstname":req.body.firstname,  _id : {$ne: new mongojs.ObjectId(req.body._id)}},function(err, docs){
 		res.json(docs);
@@ -453,9 +460,61 @@ app.post('/events/count', function(req, res){
 	})
 });
 
+app.get('/healthcards/daily/:d', function(req, res){
+	db.healthcards.find({d:req.params.d},{hid:1,hc_lastname:1, hc_firstname:1, hc_job_category:1, hc_position:1, hc_business_employment:1},function(err, docs){
+		res.json(docs);
+	})
+});
+app.get('/healthcards/monthly/:m/:y', function(req, res){
+	db.healthcards.find({m:req.params.m, y:parseInt(req.params.y)},{hid:1,hc_lastname:1, hc_firstname:1, hc_job_category:1, hc_position:1, hc_business_employment:1},function(err, docs){
+		res.json(docs);
+	})
+});
+app.get('/healthcards/yearly/:y', function(req, res){
+	db.healthcards.find({y:parseInt(req.params.y)},{hid:1,hc_lastname:1, hc_firstname:1, hc_job_category:1, hc_position:1, hc_business_employment:1},function(err, docs){
+		res.json(docs);
+		console.log(docs);
+	})
+});
+
+
 app.get('/', function(request, response) {
   response.render('index.html');
 });
+
+
+
+
+/*app.engine('php', php);
+app.set('view engine', 'php');
+app.get('/report', function(request, response) {
+  response.render('report.php');
+  //response.render('app/views/login.html');
+});
+*/
+
+
+/*var server = http.createServer(function (req, resp) {
+    if (req.url === "/report") {
+        fs.readFile("report.php", function (error, pgResp) {
+            if (error) {
+                resp.writeHead(404);
+                resp.write('Contents you are looking are Not Found');
+            } else {
+                resp.writeHead(200, { 'Content-Type': 'text/html' });
+                resp.write(pgResp);
+            }
+             
+            resp.end();
+        });
+    } else {
+        //4.
+        resp.writeHead(200, { 'Content-Type': 'text/html' });
+        resp.write('<h1>Product Manaager</h1><br /><br />To create product please enter: ' + req.url);
+        resp.end();
+    }
+});
+*/
 
 
 function createToken(user) {
