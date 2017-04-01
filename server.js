@@ -3,8 +3,8 @@
 var express = require('express');
 var app = express();
 var mongojs = require('mongojs');
-var db = mongojs('project-db', ['applications','healthcards', 'accounts', 'events']);
-//var db= mongojs('mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso', ['applications','healthcards']);
+//var db = mongojs('project-db', ['applications','healthcards', 'accounts', 'events']);
+var db= mongojs('mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso', ['applications','healthcards']);
 var bodyParser = require('body-parser');
 var urlencode = require('urlencode');
 var mongoose = require('mongoose');
@@ -66,8 +66,8 @@ app.post('/auth/registration-confirmation', auth.register_confirmation);
 app.post('/auth/login', auth.login);
 
 //Connection
-mongoose.connect("mongodb://localhost:27017/project-db", function (err, db) {
-//mongoose.connect("mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso", function (err, db) {
+//mongoose.connect("mongodb://localhost:27017/project-db", function (err, db) {
+mongoose.connect("mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso", function (err, db) {
     if (!err) {
         console.log("we are connected to mongo online");
     }
