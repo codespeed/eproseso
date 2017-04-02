@@ -33,6 +33,17 @@
          
        $scope.currentProjectUrl = $sce.trustAsResourceUrl("http://ec2-54-186-5-126.us-west-2.compute.amazonaws.com/report/view.php");
       
+        $scope.clients_expired_list = []; //declare an empty array
+         $http.get("/clients/expired").success(function(response){ 
+                $scope.clients_expired_list =  response;
+                 angular.forEach($scope.clients_expired_list, function(value, key){
+                      $http.put("/clients/expired/update",{"application_id":value._id}).then(
+                        function(response){ 
+                       } 
+                    ,onError);
+
+                });
+        });
 
 
         $http.post("/is_login/").then(

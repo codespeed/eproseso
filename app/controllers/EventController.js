@@ -12,6 +12,19 @@
             $scope.error = error.data;
         };
 
+         $scope.clients_expired_list = []; //declare an empty array
+         $http.get("/clients/expired").success(function(response){ 
+                $scope.clients_expired_list =  response;
+                 angular.forEach($scope.clients_expired_list, function(value, key){
+                      $http.put("/clients/expired/update",{"application_id":value._id}).then(
+                        function(response){ 
+                       } 
+                    ,onError);
+
+                });
+        });
+         
+
        ClientService.logout = false;
         $http.post("/is_login/").then(
                 function(response){
