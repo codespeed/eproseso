@@ -129,7 +129,7 @@ app.get('/clients/renewal', function(req, res){
 	}
 	var date_expired_number = yyyy+mm+dd;
 app.get('/clients/expired', function(req, res){
-	db.applications.find({account_status:"approved", date_expired_number:{$lt:date_expired_number}},function(err, docs){
+	db.applications.find({account_status:"approved", date_expired_number:{$lt:parseInt(date_expired_number)}},function(err, docs){
 		res.json(docs);
 		//console.log(docs);
 	})
