@@ -14,6 +14,7 @@ module.exports = {
 	register: function (req, res) {
 		console.log(req.body);
 
+
 		Application.findOne({
 			email: req.body.email
 		}, function (err, existingUser) {
@@ -96,8 +97,10 @@ module.exports = {
 	login: function (req, res) {
 		Application.findOne({
 			email: req.body.email,
+			//{ $or: [ { email: req.body.email }, { username: req.body.email } ] }
 			password: req.body.password,
-			account_status: 'activated',
+			//account_status: 'activated',
+			//{ $or: [ { account_status: 'activated' }, { account_status: 'approved' } ] }
 		}, function (err, user) {
 			if (!user)
 				return res.status(401).send({

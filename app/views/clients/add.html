@@ -190,7 +190,7 @@
                      <div class="form-group">
                       <label  class="col-sm-3 control-label">Civil Status <span class="text-red">*</span></label>
                       <div class="col-sm-7">
-                       <select class="form-control" ng-model="client.civilstatus" id="civilstatus" name="civilstatus">
+                       <select ng-init="client.civilstatus='Single'"  class="form-control" ng-model="client.civilstatus" id="civilstatus" name="civilstatus">
                           <option value="Single" selected>Single</option>
                           <option value="Married">Married</option>
                           <option value="Widowed">Widowed</option>
@@ -419,9 +419,7 @@
                   <div class="form-group">
                     <label  class="col-sm-3 control-label">Job Category <span class="text-red">*</span></label>
                     <div class="col-sm-7">
-                     
-
-                         <select class="form-control" ng-model="healthcard.job_category" id="job_category" name="job_category">
+                         <select ng-init="healthcard.job_category='Non-Food'" class="form-control" ng-model="healthcard.job_category" id="job_category" name="job_category">
                           <option value="Non-Food" selected>Non-Food <span class="text-red">*</span></option>
                           <option value="Food">Food</option>
                           <option value="Pink">Pink</option>

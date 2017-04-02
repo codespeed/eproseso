@@ -271,7 +271,7 @@
                             if(res.data.hc_sex=="female"){
                               gid= 0;
                             }
-                            var hid = y_id + "-"+mm+verification_code+dd+"-"+gid;
+                            var hid = yy + "-"+mm+verification_code+dd+"-"+gid;
 
                             var client_data = {
                                                 "_id":ClientService.application_id,

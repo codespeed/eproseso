@@ -42,6 +42,7 @@ app.get('/api/establishments', establishment.get);
 
 app.post('/api/health-card-data', apply.get);
 app.post('/api/health-card-application', apply.register);
+app.post('/api/health-card-resend', apply.resend);
 app.post('/api/health-card-application-update', apply.update);
 
 app.post('/api/profile', profile.get);
