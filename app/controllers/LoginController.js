@@ -18,7 +18,8 @@
 
      
      $scope.clients_expired_list = []; //declare an empty array
-         $http.get("/clients/expired").success(function(response){ 
+         $http.get("/clients/expired").success(function(response){
+              console.log(response); 
                 $scope.clients_expired_list =  response;
                  angular.forEach($scope.clients_expired_list, function(value, key){
                       $http.put("/clients/expired/update",{"application_id":value._id}).then(
