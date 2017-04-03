@@ -259,6 +259,10 @@ app.put('/healthcard/approved', function(req, res){
 	db.healthcards.findAndModify({query: {"application_id": req.body.application_id}, 
 										update: {$set: {
 											request_status : "approved",
+											d: req.body.d,
+							                m : req.body.m,
+							                y: req.body.y,
+							                hid: req.body.hid,
 							        	}}
 										}, function(err, docs){
 											res.json(docs);
@@ -330,6 +334,8 @@ app.put('/client/approved', function(req, res){
 											res.json(docs);
 										})
 	});
+
+
 
 app.put('/client/renew/update', function(req, res){
 	db.applications.findAndModify({query: {_id: new mongojs.ObjectId(req.body._id)}, 

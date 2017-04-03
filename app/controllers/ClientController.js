@@ -288,11 +288,7 @@
                             var client_data = {
                                                 "_id":ClientService.application_id,
                                                 "date_expired_number":date_expired_number,
-                                                "date_expired_text":date_expired_text,
-                                                "d":d,
-                                                "m":m,
-                                                "y":y,
-                                                "hid":hid
+                                                "date_expired_text":date_expired_text
                                                };
 
                             $http.put("/client/approved/", client_data).then(
@@ -304,6 +300,10 @@
 
                              var healthcard_data = {
                                                 "application_id":ClientService.application_id,
+                                                 "d":d,
+                                                 "m":m,
+                                                 "y":y,
+                                                 "hid":hid
                                                };
                             $http.put("/healthcard/approved/", healthcard_data).then(
                                 function(response){
