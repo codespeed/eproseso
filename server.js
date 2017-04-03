@@ -106,6 +106,9 @@ app.get('/clients/pending', function(req, res){
 });
 
 
+
+
+
 app.get('/clients/approved', function(req, res){
 	db.applications.find({account_status:"approved"},function(err, docs){
 		res.json(docs);
