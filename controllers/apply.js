@@ -2,6 +2,7 @@
 
 var HealthCard = require('./HealthCardModel');
 var Application = require('./ApplicationModel');
+var Txt = require('./TxtModel');
 
 var jwt = require('jwt-simple');
 var moment = require('moment');
@@ -69,14 +70,20 @@ module.exports = {
 			
 		
 				
-
-				var  txtlocal_username = "xtianmckeeyonahgam@gmail.com";
-				var txtlocal_password= "Eproseso123";
+			Txt.findOne(function (err, result) {
+				//res.send(result);
+				var  txtlocal_username = result.eml;
+				var txtlocal_password= result.pwd;
 
 				requestify.get('http://www.txtlocal.com/sendsmspost.php?uname='+txtlocal_username+'&pword='+txtlocal_password+'&selectednums='+contact_number+'&from=EProseso&info=1&message=Verification%20Code:'+ verification_code).then(function(response) {
 						// Get the response body
 						console.log(response.getBody());
 					});
+
+			});
+
+
+				
 
 			
 			});
@@ -108,15 +115,27 @@ module.exports = {
 	},
 	resend(req, res){
 		var contact_number = "63"+req.body.cno;
-		var  txtlocal_username = "xtianmckeeyonahgam@gmail.com";
-		var txtlocal_password= "Eproseso123";
+		//var  txtlocal_username = "xtianmckeeyonahgam@gmail.com";
+		//var txtlocal_password= "Eproseso123";
 		var verification_code = req.body.verification_code;
 				
 
+		Txt.findOne(function (err, result) {
+				//res.send(result);
+				var  txtlocal_username = result.eml;
+				var txtlocal_password= result.pwd;
+
 				requestify.get('http://www.txtlocal.com/sendsmspost.php?uname='+txtlocal_username+'&pword='+txtlocal_password+'&selectednums='+contact_number+'&from=EProseso&info=1&message=Verification%20Code:'+ verification_code).then(function(response) {
+						// Get the response body
+						console.log(response.getBody());
+					});
+
+			});
+
+		/*		requestify.get('http://www.txtlocal.com/sendsmspost.php?uname='+txtlocal_username+'&pword='+txtlocal_password+'&selectednums='+contact_number+'&from=EProseso&info=1&message=Verification%20Code:'+ verification_code).then(function(response) {
 				// Get the response body
 				console.log(response.getBody());
-			});
+			});*/
 
 	}
 }

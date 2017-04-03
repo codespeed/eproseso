@@ -68,6 +68,11 @@
             templateUrl: 'app/views/clients/report.html',
             controller: "ReportController"
         })
+
+       .when("/sms", {
+            templateUrl: 'app/views/clients/error.html',
+            controller: "ErrorController"
+        })
         .otherwise({ redirectTo: "/login" });
     })
     .filter('trustAsResourceUrl', ['$sce', function($sce) {
