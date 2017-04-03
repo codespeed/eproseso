@@ -70,14 +70,14 @@ module.exports = {
 		
 				
 
-				/*var  txtlocal_username = "xtianmckeeyonahgam@gmail.com";
+				var  txtlocal_username = "xtianmckeeyonahgam@gmail.com";
 				var txtlocal_password= "Eproseso123";
 
 				requestify.get('http://www.txtlocal.com/sendsmspost.php?uname='+txtlocal_username+'&pword='+txtlocal_password+'&selectednums='+contact_number+'&from=EProseso&info=1&message=Verification%20Code:'+ verification_code).then(function(response) {
 						// Get the response body
 						console.log(response.getBody());
 					});
-*/
+
 			
 			});
 
