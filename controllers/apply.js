@@ -49,53 +49,26 @@ module.exports = {
             date_expired = yyyy+mm+dd;
 
 			var verification_code = Math.floor(1000 + Math.random() * 9000);
-			data.hc_age = '';
-			data.request_status = 'pending';
-			data.verification_code = verification_code;
-			data.hc_contact = req.body.contact;
-			data.application_id = decoded_token.sub;
 			data.d = "";
 			data.m = "";
 			data.y = "";
 			data.hid = "";
 
+			data.hc_age = '';
+			data.request_status = 'pending';
+			data.verification_code = verification_code;
+			data.hc_contact = req.body.contact;
+			data.application_id = decoded_token.sub;
+			
 
 
 			var contact_number = "63"+req.body.contact;
 
 			var hc = new HealthCard(data);
 			hc.save(function (err, result) {
-				/* Do SMS SEND TEXT HERE */
-				// Set the headers
-				var headers = {
-					'User-Agent':       'Super Agent/0.0.1',
-					'Content-Type':     'application/x-www-form-urlencoded'
-				}
-
-				var message = "EProseso Verification Code: " + verification_code;
-				var sms_username = 'maghanoycm@gmail.com';
-				var sms_hash = 'fzB5CFpuuMY-EfvbUW91JaaVywf8jsW8Zap9l3cbyS';
-
-				var sms_number = contact_number;
-				var sms_sender = "EProseso";
-				var sms_message = message;
-
-				var data = {
-					'username' : sms_username,
-					'hash' : sms_hash,
-					'numbers' : sms_number,
-					'sender' : sms_sender,
-					'message' : sms_message,
-				};
-
-
-				// Configure the request
-				var options = {
-			    url: 'http://api.txtlocal.com/send/',
-			    method: 'POST',
-			    headers: headers,
-			    form: data
-				}
+			
+		
+				
 
 				var  txtlocal_username = "xtianmckeeyonahgam@gmail.com";
 				var txtlocal_password= "Eproseso123";
@@ -105,19 +78,7 @@ module.exports = {
 						console.log(response.getBody());
 					});
 
-			 /*request(options, function (error, response, body) {
-			     if (!error && response.statusCode == 200) {
-				         // Print out the response body
-			         console.log(body)
-				     }
-				})*/
-
-				/*var options = {};
-
-				curl.post('http://localhost/test-site/?username='+ sms_username, urlencode(data), options, function(err, response, body) {
-					console.log( body );
-				});*/
-				/* USE req.body.verification_code */
+			
 			});
 
 			res.status(200).send("Health Card Application has been Sumbitted. Verification code will be sent in the provide Contact number");
