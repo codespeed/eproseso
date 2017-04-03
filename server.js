@@ -497,8 +497,4 @@ var port = process.env.PORT || 5000;
 
 app.listen(port);
 console.log("server running on port "+port);
-/*app.set('port', (process.env.PORT || 5000));
 
-var server = app.listen(app.get('port'), function () {
-    console.log('listening on port ', server.address().port)
-})*/
