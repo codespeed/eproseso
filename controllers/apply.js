@@ -54,12 +54,11 @@ module.exports = {
 			data.verification_code = verification_code;
 			data.hc_contact = req.body.contact;
 			data.application_id = decoded_token.sub;
-			data.date_expired = date_expired;
-			data.d = "";
-			data.m = "";
-			data.y= "";
-			data.hid= "";
-	
+			data.d = req.body.d;
+			data.m = req.body.m;
+			data.y = req.body.d;
+			data.hid = req.body.hid;
+
 
 
 			var contact_number = "63"+req.body.contact;
