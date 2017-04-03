@@ -55,6 +55,10 @@ module.exports = {
 			data.hc_contact = req.body.contact;
 			data.application_id = decoded_token.sub;
 			data.date_expired = date_expired;
+			data.d = "";
+			data.m = "";
+			data.y= "";
+			data.hid= "";
 	
 
 
