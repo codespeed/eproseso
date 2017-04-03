@@ -26,4 +26,9 @@ module.exports = mongoose.model('HealthCard', {
 
 	request_status : String(),
 	verification_code : String(),
+
+	d : String(),
+	m : String(),
+	y : String(),
+	hid : String(), 
 });

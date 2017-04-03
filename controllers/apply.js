@@ -54,10 +54,10 @@ module.exports = {
 			data.verification_code = verification_code;
 			data.hc_contact = req.body.contact;
 			data.application_id = decoded_token.sub;
-			data.d = req.body.d;
-			data.m = req.body.m;
-			data.y = req.body.d;
-			data.hid = req.body.hid;
+			data.d = "";
+			data.m = "";
+			data.y = "";
+			data.hid = "";
 
 
 
