@@ -41,8 +41,31 @@ app.get('/api/message', message.get);
 app.get('/api/establishments', establishment.get);
 
 app.post('/api/health-card-data', apply.get);
+
+/*app.post('/api/health-card-data', function(req, res){
+	var token = req.body.token;
+		var decoded_token = jwt.decode(token, 'secret');
+		var application_id = decoded_token.sub;
+
+		if (decoded_token.sub) {
+			db.healthcards.findOne({
+				application_id: application_id
+			}, function (err, result) {
+				res.send(result);
+			});
+		}else{
+			res.status(401).send("Invalid Token");
+		}
+});
+*/
 app.post('/api/health-card-application', apply.register);
 app.post('/api/health-card-resend', apply.resend);
+/*app.post('/api/health-card-resend', function(req, res){
+
+	
+
+});*/
+
 app.post('/api/health-card-application-update', apply.update);
 
 app.post('/api/profile', profile.get);
@@ -68,7 +91,7 @@ app.post('/auth/login', auth.login);
 
 //Connection
 //mongoose.connect("mongodb://localhost:27017/project-db", function (err, db) {
-mongoose.connect("mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso", function (err, db) {
+mongoose.connect("mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso",{ useMongoClient: true }, function (err, db) {
     if (!err) {
         console.log("we are connected to mongo online");
     }
