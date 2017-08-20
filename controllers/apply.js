@@ -11,6 +11,9 @@ var request = require('request');
 var urlencode = require('urlencode');
 var requestify = require('requestify'); 
 
+var mongojs = require('mongojs');
+var db= mongojs('mongodb://eproseso:eproseso@ds059682.mlab.com:59682/eproseso', ['applications','healthcards','accounts','events','txt']);
+
 module.exports = {
 	get: function (req, res) {
 		var token = req.body.token;
@@ -69,9 +72,20 @@ module.exports = {
 			hc.save(function (err, result) {
 			
 		
+		db.txt.findOne(function(err, res){
+			var  txtlocal_username = res.eml;
+				var txtlocal_password= res.pwd;
+
+				requestify.get('http://www.txtlocal.com/sendsmspost.php?uname='+txtlocal_username+'&pword='+txtlocal_password+'&selectednums='+contact_number+'&from=EProseso&info=1&message=Verification%20Code:'+ verification_code).then(function(response) {
+						// Get the response body
+						console.log(response.getBody());
+					});
+
+		})
 				
-			Txt.findOne(function (err, result) {
+			/*Txt.findOne(function (err, result) {
 				//res.send(result);
+				console.log(result);
 				var  txtlocal_username = result.eml;
 				var txtlocal_password= result.pwd;
 
@@ -80,9 +94,17 @@ module.exports = {
 						console.log(response.getBody());
 					});
 
+			});*/			
+			
+
+		/*	var  txtlocal_username = "oelbertr10@gmail.com";
+				var txtlocal_password= "Otreb0413";
+
+			requestify.get('http://www.txtlocal.com/sendsmspost.php?uname='+txtlocal_username+'&pword='+txtlocal_password+'&selectednums='+contact_number+'&from=EProseso&info=1&message=Verification%20Code:'+ verification_code).then(function(response) {
+				// Get the response body
+				console.log(response.getBody());
 			});
-
-
+*/
 				
 
 			
@@ -120,7 +142,7 @@ module.exports = {
 		var verification_code = req.body.verification_code;
 				
 
-		Txt.findOne(function (err, result) {
+		/*Txt.findOne(function (err, result) {
 				//res.send(result);
 				var  txtlocal_username = result.eml;
 				var txtlocal_password= result.pwd;
@@ -130,7 +152,19 @@ module.exports = {
 						console.log(response.getBody());
 					});
 
-			});
+			});*/
+
+		db.txt.findOne(function(err, result){
+			var  txtlocal_username = result.eml;
+				var txtlocal_password= result.pwd;
+
+				requestify.get('http://www.txtlocal.com/sendsmspost.php?uname='+txtlocal_username+'&pword='+txtlocal_password+'&selectednums='+contact_number+'&from=EProseso&info=1&message=Verification%20Code:'+ verification_code).then(function(response) {
+						// Get the response body
+						console.log(response.getBody());
+					});
+
+		})
+
 
 		/*		requestify.get('http://www.txtlocal.com/sendsmspost.php?uname='+txtlocal_username+'&pword='+txtlocal_password+'&selectednums='+contact_number+'&from=EProseso&info=1&message=Verification%20Code:'+ verification_code).then(function(response) {
 				// Get the response body
