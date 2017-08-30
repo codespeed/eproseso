@@ -32,7 +32,7 @@
      "jwt-simple":"0.5.1",
      "moment":"2.18.1",
      "nodemailer":"3.1.8",
-     "connect-multiparty":"2.0.0",
+     "connect-multiparty":"2.0.0"
   },
   "author": "Christian Mark Maghanoy <maghanoycm@gmail.com>",
   "license": "CC-BY-1.0",
